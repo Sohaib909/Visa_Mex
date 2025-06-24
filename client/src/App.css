@@ -1,0 +1,5 @@
+/* App-specific styles that complement Tailwind CSS */
+
+.App {
+  text-align: left;
+}
