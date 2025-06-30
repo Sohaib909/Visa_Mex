@@ -13,6 +13,7 @@ const SignupPage = () => {
     firstName: "",
     lastName: "",
     email: "",
+    phoneNumber: "",
     password: "",
     confirmPassword: "",
     signUpAsAgency: false,
@@ -66,6 +67,12 @@ const SignupPage = () => {
       newErrors.email = "Email is invalid"
     }
 
+    if (!formData.phoneNumber.trim()) {
+      newErrors.phoneNumber = "Mobile number is required"
+    } else if (!/^\+?[0-9]{7,20}$/.test(formData.phoneNumber.trim())) {
+      newErrors.phoneNumber = "Mobile number is invalid"
+    }
+
     if (!formData.password) {
       newErrors.password = "Password is required"
     } else if (formData.password.length < 6) {
@@ -95,6 +102,7 @@ const SignupPage = () => {
         firstName: formData.firstName.trim(),
         lastName: formData.lastName.trim(),
         email: formData.email.trim(),
+        phoneNumber: formData.phoneNumber.trim(),
         password: formData.password,
         confirmPassword: formData.confirmPassword,
         signUpAsAgency: formData.signUpAsAgency
@@ -269,6 +277,25 @@ const SignupPage = () => {
                     />
                     {errors.email && (
                       <p className={`mt-1 ${typography.message} text-red-600`}>{errors.email}</p>
+                    )}
+                  </div>
+
+                  
+                  <div>
+                    <input
+                      type="text"
+                      name="phoneNumber"
+                      placeholder="Mobile Number"
+                      value={formData.phoneNumber}
+                      onChange={handleInputChange}
+                      className={`${components.input.classes} ${errors.phoneNumber ? 'border-red-500' : 'border-blue-700'}`}
+                      style={components.input.focusStyle}
+                      onFocus={(e) => !errors.phoneNumber && (e.target.style.boxShadow = components.input.focusBoxShadow)}
+                      onBlur={(e) => (e.target.style.boxShadow = components.input.blurBoxShadow)}
+                      disabled={loading}
+                    />
+                    {errors.phoneNumber && (
+                      <p className={`mt-1 ${typography.message} text-red-600`}>{errors.phoneNumber}</p>
                     )}
                   </div>
 

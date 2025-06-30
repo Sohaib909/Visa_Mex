@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: function() {
-      // Password is only required if user is not using OAuth
+      
       return !this.googleId && !this.facebookId;
     },
     minlength: [6, 'Password must be at least 6 characters'],
@@ -43,7 +43,7 @@ const userSchema = new mongoose.Schema({
   // OAuth Fields
   googleId: {
     type: String,
-    sparse: true // Allows multiple null values
+    sparse: true 
   },
   facebookId: {
     type: String,
@@ -76,6 +76,12 @@ const userSchema = new mongoose.Schema({
   emailVerificationToken: String,
   emailVerificationExpire: Date,
   
+  phoneNumber: {
+    type: String,
+    trim: true,
+    maxlength: [20, 'Phone number cannot exceed 20 characters']
+  },
+  
 }, {
   timestamps: true, 
   toJSON: { virtuals: true },
@@ -87,7 +93,7 @@ userSchema.virtual('fullName').get(function() {
   return `${this.firstName} ${this.lastName}`;
 });
 
-// Virtual for isAgency (backward compatibility)
+
 userSchema.virtual('isAgency').get(function() {
   return this.role === 'agency';
 });
@@ -125,7 +131,7 @@ userSchema.methods.toAuthJSON = function() {
     fullName: this.fullName,
     email: this.email,
     role: this.role,
-    isAgency: this.isAgency, // Virtual field
+    isAgency: this.isAgency, 
     isActive: this.isActive,
     isEmailVerified: this.isEmailVerified,
     createdAt: this.createdAt,
