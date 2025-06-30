@@ -1,13 +1,17 @@
 import { useState, useEffect } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
-import useApi from "../hooks/useApi"
+import { useAuth } from "../context/AuthContext"
+import useAuthLayout from "../hooks/useAuthLayout"
 
 const SignupVerificationPage = () => {
   const [verificationCode, setVerificationCode] = useState(["", "", "", ""])
   const [errors, setErrors] = useState({})
   const navigate = useNavigate()
   const location = useLocation()
-  const { authApi, loading, error } = useApi()
+  const { verifyEmail, resendVerificationCode, loading, error } = useAuth()
+  
+  // Get centralized layout configuration
+  const { container, grid, form, brand, typography, components, colors } = useAuthLayout()
   
   // Get email from location state or redirect to signup
   const email = location.state?.email
@@ -71,16 +75,17 @@ const SignupVerificationPage = () => {
 
     try {
       const code = verificationCode.join("")
-      const response = await authApi.verifyEmail({
+      const response = await verifyEmail({
         email: email,
         verificationCode: code
       })
 
       if (response.success) {
-        // Navigate to login page or home page after successful verification
+        // Navigate to login page after successful verification
+        // Don't auto-login, let user login manually
         navigate("/login", { 
           state: { 
-            message: "Email verified successfully! You can now login.",
+            message: "Congratulations! Your account has been created and verified successfully. Please login with your credentials.",
             email: email 
           } 
         })
@@ -93,13 +98,17 @@ const SignupVerificationPage = () => {
         setErrors({ verificationCode: "Verification code has expired. Please request a new one." })
       } else if (err.message.includes("Invalid")) {
         setErrors({ verificationCode: "Invalid verification code. Please try again." })
+      } else if (err.message.includes("Too many failed attempts")) {
+        setErrors({ verificationCode: "Too many failed attempts. Please register again." })
+      } else if (err.message.includes("No pending registration")) {
+        setErrors({ verificationCode: "Registration session expired. Please register again." })
       }
     }
   }
 
   const handleResend = async () => {
     try {
-      const response = await authApi.resendVerificationCode(email)
+      const response = await resendVerificationCode(email)
       
       if (response.success) {
         // Clear any existing codes
@@ -119,7 +128,7 @@ const SignupVerificationPage = () => {
   }
 
   return (
-    <div className="h-screen w-full relative overflow-hidden font-['Montserrat']">
+    <div className="w-full min-h-screen relative overflow-hidden font-['Montserrat']">
       {/* Background Image */}
       <div
         className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
@@ -129,135 +138,134 @@ const SignupVerificationPage = () => {
       />
 
       {/* Main Container */}
-      <div className="relative z-10 h-screen flex items-center justify-center p-2 sm:p-4 lg:p-6">
-        <div className="w-full max-w-6xl mx-auto h-full max-h-[85vh]">
+      <div className={`relative z-10 min-h-screen flex items-center justify-center ${container.padding}`}>
+        <div 
+          className={container.classes}
+          style={container.styles}
+        >
           {/* Card Container */}
-          <div className="bg-white/15 backdrop-blur-sm rounded-3xl overflow-hidden shadow-2xl h-full">
-            <div className="grid grid-cols-1 lg:grid-cols-5 h-full">
-              {/* Left Side - Verification Form (40%) */}
+          <div className={grid.container}>
+            {/* Right Side - Brand Section (60%) - FIRST ON MOBILE */}
+            <div
+              className={`${grid.brandSection} ${brand.containerClasses} ${brand.padding}`}
+              style={{ backgroundColor: brand.background }}
+            >
+              {/* Decorative Background Pattern */}
               <div
-                className="lg:col-span-2 p-4 sm:p-6 lg:p-8 flex flex-col justify-center relative"
-                style={{
-                  backgroundColor: "rgba(255, 255, 255, 0.57)",
-                  backdropFilter: "blur(10.1px)",
-                }}
-              >
-                <div className="relative z-10 w-full max-w-sm mx-auto">
-                  {/* Verification Title */}
-                  <div className="mb-8">
-                    <h1 className="text-3xl sm:text-4xl text-left pl-8 font-semibold font-sans mb-8" style={{ color: "#1B3276" }}>
-                      Verification
-                    </h1>
-                    <p className="text-gray-600 text-base font-sans font-sm pl-8">Enter Verification Code</p>
-                    <p className="text-gray-500 text-sm font-sans pl-8 mt-2">
-                      We sent a 4-digit code to <span className="font-semibold">{email}</span>
-                    </p>
+                className={brand.backgroundPattern.classes}
+                style={brand.backgroundPattern.style}
+              />
+
+              <div className={`relative ${brand.contentMargin} z-10 text-center`}>
+                {/* Logo/Brand Name */}
+                <div className={brand.logoMargin}>
+                  <h1 className={typography.brandLogo}>
+                    MEX<span className="font-light">VISA</span>
+                  </h1>
+                </div>
+
+                {/* Welcome Message */}
+                <div className={brand.textSpacing}>
+                  <p className={typography.brandWelcome}>Welcome to</p>
+                  <p className={typography.brandSubtitle}>MexVisa</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Left Side - Verification Form (40%) - SECOND ON MOBILE */}
+            <div
+              className={`${grid.formSection} ${form.containerClasses} ${form.padding}`}
+              style={{
+                backgroundColor: form.background,
+                backdropFilter: form.backdropFilter,
+              }}
+            >
+              <div className={form.contentWrapper}>
+                {/* Verification Title */}
+                <div className={form.titleMargin}>
+                  <h1 className={`${typography.title} text-left pl-2 sm:pl-4 lg:pl-8`} style={{ color: colors.title }}>
+                    Verification
+                  </h1>
+                  <p className={`text-gray-600 ${typography.instruction} text-left pl-2 sm:pl-4 lg:pl-8 mt-2`}>Enter the 4-digit verification code</p>
+                  <p className={`text-gray-500 ${typography.instruction} text-left pl-2 sm:pl-4 lg:pl-8 mt-1`}>
+                    We sent a verification code to <span className="font-semibold">{email}</span>
+                  </p>
+                  <p className={`text-blue-600 ${typography.instruction} text-left pl-2 sm:pl-4 lg:pl-8 mt-1 font-medium`}>
+                    Your account will be created once you verify your email
+                  </p>
+                </div>
+
+                {/* Error Message */}
+                {error && (
+                  <div className={`${components.message.error} mb-4`}>
+                    {error}
+                  </div>
+                )}
+
+                {/* Verification Form */}
+                <form className={form.formClasses} onSubmit={handleSignUp}>
+                  {/* Verification Code Inputs */}
+                  <div className="flex justify-left space-x-3 sm:space-x-4 lg:space-x-6 pl-0 sm:pl-2 lg:pl-6">
+                    {verificationCode.map((digit, index) => (
+                      <input
+                        key={index}
+                        id={`code-${index}`}
+                        type="text"
+                        value={digit}
+                        onChange={(e) => handleCodeChange(index, e.target.value)}
+                        onKeyDown={(e) => handleKeyDown(index, e)}
+                        className={`w-12 h-12 sm:w-14 sm:h-14 text-center text-lg sm:text-xl font-semibold font-sans bg-white/90 border rounded-full text-blue-500 focus:outline-none focus:border-transparent transition-all duration-200 shadow-sm ${
+                          errors.verificationCode ? 'border-red-500' : 'border-blue-800'
+                        }`}
+                        style={{
+                          focusRingColor: colors.primary,
+                          boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                        }}
+                        onFocus={(e) => !errors.verificationCode && (e.target.style.boxShadow = components.input.focusBoxShadow)}
+                        onBlur={(e) => (e.target.style.boxShadow = components.input.blurBoxShadow)}
+                        maxLength={1}
+                        disabled={loading}
+                      />
+                    ))}
                   </div>
 
-                  {/* Error Message */}
-                  {error && (
-                    <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg text-sm">
-                      {error}
+                  {/* Error Message for verification code */}
+                  {errors.verificationCode && (
+                    <div className="text-left pl-0 sm:pl-2 lg:pl-8">
+                      <p className={`text-red-600 ${typography.instruction}`}>{errors.verificationCode}</p>
                     </div>
                   )}
 
-                  {/* Verification Form */}
-                  <form className="space-y-8" onSubmit={handleSignUp}>
-                    {/* Verification Code Inputs */}
-                    <div className="flex justify-left pl-6 space-x-6">
-                      {verificationCode.map((digit, index) => (
-                        <input
-                          key={index}
-                          id={`code-${index}`}
-                          type="text"
-                          value={digit}
-                          onChange={(e) => handleCodeChange(index, e.target.value)}
-                          onKeyDown={(e) => handleKeyDown(index, e)}
-                          className={`w-14 h-14 text-center text-xl font-semibold font-sans bg-white/90 border rounded-full text-blue-500 focus:outline-none focus:border-transparent transition-all duration-200 shadow-sm ${
-                            errors.verificationCode ? 'border-red-500' : 'border-blue-800'
-                          }`}
-                          style={{
-                            focusRingColor: "#5576D9",
-                            boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
-                          }}
-                          onFocus={(e) => !errors.verificationCode && (e.target.style.boxShadow = `0 0 0 3px rgba(85, 118, 217, 0.1)`)}
-                          onBlur={(e) => (e.target.style.boxShadow = "0 2px 4px rgba(0,0,0,0.05)")}
-                          maxLength={1}
-                          disabled={loading}
-                        />
-                      ))}
-                    </div>
-
-                    {/* Error Message for verification code */}
-                    {errors.verificationCode && (
-                      <div className="text-left pl-8">
-                        <p className="text-red-600 text-sm">{errors.verificationCode}</p>
-                      </div>
-                    )}
-
-                    {/* Resend Code Text */}
-                    <div className="text-left pl-8">
-                      <p className="text-gray-700 text-sm">
-                        If you didn't receive a code,{" "}
-                        <button
-                          type="button"
-                          className="hover:opacity-80 font-semibold transition-colors disabled:opacity-50"
-                          style={{ color: "#5576D9" }}
-                          onClick={handleResend}
-                          disabled={loading}
-                        >
-                          Resend
-                        </button>
-                      </p>
-                    </div>
-
-                    {/* Sign Up Button */}
-                    <div className="pt-6">
+                  {/* Resend Code Text */}
+                  <div className="text-left pl-0 sm:pl-2 lg:pl-8">
+                    <p className={`text-gray-700 ${typography.instruction}`}>
+                      If you didn't receive a code,{" "}
                       <button
-                        type="submit"
-                        className="w-full text-white font-semibold py-4 px-6 rounded-2xl transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-                        style={{
-                          backgroundColor: "#5576D9",
-                        }}
-                        onMouseEnter={(e) => !loading && (e.target.style.backgroundColor = "#4a6bc7")}
-                        onMouseLeave={(e) => (e.target.style.backgroundColor = "#5576D9")}
+                        type="button"
+                        className="hover:opacity-80 font-semibold transition-colors disabled:opacity-50"
+                        style={{ color: colors.primary }}
+                        onClick={handleResend}
                         disabled={loading}
                       >
-                        {loading ? "Verifying..." : needsVerification ? "Verify Email" : "Sign Up"}
+                        Resend
                       </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-
-              {/* Right Side - Brand Section (60%) */}
-              <div
-                className="lg:col-span-3 p-6 sm:p-8 lg:p-12 flex flex-col justify-center items-center text-white relative overflow-hidden"
-                style={{ backgroundColor: "#5576D9" }}
-              >
-                {/* Decorative Background Pattern */}
-                <div
-                  className="absolute bottom-1 w-full h-1/2 bg-contain bg-no-repeat bg-center"
-                  style={{
-                    backgroundImage: `url('/loginbg2.png')`,
-                    backgroundSize: "75% auto",
-                  }}
-                />
-
-                <div className="relative mb-16 z-10 text-center">
-                  {/* Logo/Brand Name */}
-                  <div className="mb-8">
-                    <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold font-sans tracking-wider">
-                      MEX<span className="font-light">VISA</span>
-                    </h1>
+                    </p>
                   </div>
 
-                  {/* Welcome Message */}
-                  <div className="space-y-2">
-                    <p className="text-2xl sm:text-4xl font-light font-sans">Welcome to</p>
-                    <p className="text-3xl sm:text-4xl font-bold font-sans">MexVisa</p>
+                  {/* Sign Up Button */}
+                  <div className={components.button.topMargin}>
+                    <button
+                      type="submit"
+                      className={components.button.classes}
+                      style={components.button.style}
+                      onMouseEnter={(e) => !loading && (e.target.style.backgroundColor = components.button.hoverColor)}
+                      onMouseLeave={(e) => (e.target.style.backgroundColor = colors.primary)}
+                      disabled={loading}
+                    >
+                      {loading ? "Verifying..." : needsVerification ? "Verify Email" : "Sign Up"}
+                    </button>
                   </div>
-                </div>
+                </form>
               </div>
             </div>
           </div>

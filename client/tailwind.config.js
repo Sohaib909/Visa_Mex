@@ -17,6 +17,11 @@ const config = {
       fontFamily: {
         sans: ['Montserrat', 'ui-sans-serif', 'system-ui'],
       },
+      maxWidth: {
+        '8xl': '1536px',  
+        '9xl': '1600px',  
+        'figma': '1589px', 
+      },
     },
   },
   plugins: [],

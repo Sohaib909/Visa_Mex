@@ -1,48 +1,47 @@
-import { useState } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'; // Backend URL
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 const useApi = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Get stored token
-  const getToken = () => {
-    return localStorage.getItem('authToken');
-  };
+  // Token management
+  const getToken = useCallback(() => {
+    return localStorage.getItem('token') || localStorage.getItem('authToken');
+  }, []);
 
-  // Set token in localStorage
-  const setToken = (token) => {
-    if (token) {
-      localStorage.setItem('authToken', token);
-    } else {
-      localStorage.removeItem('authToken');
+  const setToken = useCallback((token) => {
+    localStorage.setItem('token', token);
+    localStorage.removeItem('authToken');
+  }, []);
+
+  // User data management  
+  const getUserData = useCallback(() => {
+    try {
+      const userData = localStorage.getItem('user') || localStorage.getItem('userData');
+      return userData ? JSON.parse(userData) : null;
+    } catch (error) {
+      console.error('Error parsing user data:', error);
+      return null;
     }
-  };
+  }, []);
 
-  // Set user data in localStorage
-  const setUserData = (userData) => {
-    if (userData) {
-      localStorage.setItem('userData', JSON.stringify(userData));
-    } else {
-      localStorage.removeItem('userData');
-    }
-  };
-
-  // Get user data from localStorage
-  const getUserData = () => {
-    const userData = localStorage.getItem('userData');
-    return userData ? JSON.parse(userData) : null;
-  };
+  const setUserData = useCallback((userData) => {
+    localStorage.setItem('user', JSON.stringify(userData));
+    localStorage.removeItem('userData');
+  }, []);
 
   // Clear all auth data
-  const clearAuthData = () => {
+  const clearAuthData = useCallback(() => {
+    localStorage.removeItem('token');
     localStorage.removeItem('authToken');
+    localStorage.removeItem('user');
     localStorage.removeItem('userData');
-  };
+  }, []);
 
   // Generic API call function
-  const makeApiCall = async (endpoint, options = {}) => {
+  const makeApiCall = useCallback(async (endpoint, options = {}) => {
     setLoading(true);
     setError(null);
 
@@ -57,9 +56,6 @@ const useApi = () => {
       if (token && !options.skipAuth) {
         headers.Authorization = `Bearer ${token}`;
       }
-
-      console.log(`Making API call to: ${API_BASE_URL}${endpoint}`);
-      console.log('Headers:', headers);
 
       const response = await fetch(`${API_BASE_URL}${endpoint}`, {
         method: 'GET',
@@ -90,10 +86,10 @@ const useApi = () => {
       setError(errorMessage);
       throw new Error(errorMessage);
     }
-  };
+  }, [getToken]);
 
   // Authentication API calls
-  const authApi = {
+  const authApi = useMemo(() => ({
     // Step 1: Register user
     register: async (userData) => {
       const data = await makeApiCall('/auth/register', {
@@ -112,11 +108,8 @@ const useApi = () => {
         skipAuth: true,
       });
       
-      // Auto-login after verification
-      if (data.success && data.data?.token) {
-        setToken(data.data.token);
-        setUserData(data.data.user);
-      }
+      // Don't auto-login after verification
+      // Let user manually login after account creation
       
       return data;
     },
@@ -126,6 +119,15 @@ const useApi = () => {
       const data = await makeApiCall('/auth/resend-verification', {
         method: 'POST',
         body: JSON.stringify({ email }),
+        skipAuth: true,
+      });
+      return data;
+    },
+
+    // Check registration status
+    checkRegistrationStatus: async (email) => {
+      const data = await makeApiCall(`/auth/registration-status/${encodeURIComponent(email)}`, {
+        method: 'GET',
         skipAuth: true,
       });
       return data;
@@ -199,26 +201,26 @@ const useApi = () => {
       });
       return data;
     },
-  };
+  }), [makeApiCall, setToken, setUserData, clearAuthData]);
 
   // Helper functions for checking authentication
-  const isAuthenticated = () => {
+  const isAuthenticated = useCallback(() => {
     const token = getToken();
     const userData = getUserData();
     return !!(token && userData);
-  };
+  }, [getToken, getUserData]);
 
-  const isEmailVerified = () => {
+  const isEmailVerified = useCallback(() => {
     const userData = getUserData();
     return userData?.isEmailVerified || false;
-  };
+  }, [getUserData]);
 
-  const getRole = () => {
+  const getRole = useCallback(() => {
     const userData = getUserData();
     return userData?.role || 'user';
-  };
+  }, [getUserData]);
 
-  return {
+  return useMemo(() => ({
     loading,
     error,
     authApi,
@@ -229,7 +231,18 @@ const useApi = () => {
     clearAuthData,
     makeApiCall,
     setError
-  };
+  }), [
+    loading,
+    error,
+    authApi,
+    isAuthenticated,
+    isEmailVerified,
+    getRole,
+    getUserData,
+    clearAuthData,
+    makeApiCall,
+    setError
+  ]);
 };
 
 export default useApi; 

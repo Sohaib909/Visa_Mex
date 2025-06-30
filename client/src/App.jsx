@@ -1,15 +1,15 @@
+import React from 'react';
 import AppRouter from './routes/AppRouter';
-import { AuthProvider } from './context/AuthContext';
 import './App.css';
 
-function App() {
+const App = React.memo(() => {
   return (
-    <AuthProvider>
-      <div className="App">
-        <AppRouter />
-      </div>
-    </AuthProvider>
+    <div className="App">
+      <AppRouter />
+    </div>
   );
-}
+});
+
+App.displayName = 'App';
 
 export default App;
