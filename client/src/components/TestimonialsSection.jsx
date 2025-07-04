@@ -1,4 +1,8 @@
+import { useLanguage } from '../context/LanguageContext';
+
 const TestimonialsSection = () => {
+  const { t } = useLanguage();
+  
   const testimonials = [
     {
       name: "Ashley Cooper",
@@ -81,7 +85,11 @@ const TestimonialsSection = () => {
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 relative z-10">
         {/* Header */}
         <div className="text-center mb-8 sm:mb-12">
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#1B3276] mb-4">What Our Customers Say</h2>
+          {/* Pill-shaped label */}
+          <div className="inline-block mb-3 px-4 py-1 rounded-lg bg-blue-100">
+            <span className="text-blue-700 text-sm font-medium">Testimonials</span>
+          </div>
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#1B3276]">{t("testimonials.title")}</h2>
         </div>
 
         {/* Testimonials Grid */}

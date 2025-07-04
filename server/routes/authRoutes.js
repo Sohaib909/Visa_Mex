@@ -104,4 +104,121 @@ router.get('/facebook/callback',
   }
 );
 
+// Logout endpoint - clears both session and JWT
+router.post('/logout', (req, res) => {
+  try {
+    // Check if user is authenticated via session (Passport)
+    const hasSession = req.isAuthenticated && req.isAuthenticated();
+    
+    if (hasSession) {
+      // Only call passport logout if there's an active session
+      req.logout((err) => {
+        if (err) {
+          console.error('Passport logout error:', err);
+        }
+      });
+      
+      // Destroy session if it exists
+      if (req.session) {
+        req.session.destroy((err) => {
+          if (err) {
+            console.error('Session destruction error:', err);
+          }
+        });
+      }
+      
+      // Clear session cookie
+      res.clearCookie('connect.sid'); // default session cookie name
+    }
+    
+    res.json({
+      success: true,
+      message: 'Logged out successfully',
+      clearedSession: hasSession
+    });
+  } catch (error) {
+    console.error('Logout error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Logout failed'
+    });
+  }
+});
+
+// Authentication check endpoint - checks both session and JWT
+router.get('/me', async (req, res) => {
+  try {
+    let user = null;
+    let authMethod = null;
+
+    // Check 1: Session-based authentication (from Passport) - with error handling
+    try {
+      if (req.isAuthenticated && req.isAuthenticated() && req.user) {
+        user = req.user;
+        authMethod = 'session';
+      }
+    } catch (sessionError) {
+      console.log('Session check failed:', sessionError.message);
+      // Continue to JWT check
+    }
+    
+    // Check 2: JWT-based authentication (fallback if no session)
+    if (!user) {
+      const authHeader = req.header('Authorization');
+      if (authHeader && authHeader.startsWith('Bearer ')) {
+        try {
+          const jwt = require('jsonwebtoken');
+          const User = require('../models/User');
+          
+          const token = authHeader.substring(7);
+          const decoded = jwt.verify(token, process.env.JWT_SECRET);
+          const jwtUser = await User.findById(decoded.id).select('-password');
+          
+          if (jwtUser && jwtUser.isActive) {
+            user = jwtUser;
+            authMethod = 'jwt';
+          }
+        } catch (jwtError) {
+          console.log('JWT check failed:', jwtError.message);
+          // Continue without user
+        }
+      }
+    }
+
+    if (user) {
+      // Generate new JWT if authenticated via session only
+      if (authMethod === 'session') {
+        const jwt = require('jsonwebtoken');
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+          expiresIn: '24h'
+        });
+        
+        return res.json({
+          success: true,
+          user: user.toAuthJSON ? user.toAuthJSON() : user,
+          token: token,
+          authMethod: authMethod
+        });
+      }
+      
+      return res.json({
+        success: true,
+        user: user.toAuthJSON ? user.toAuthJSON() : user,
+        authMethod: authMethod
+      });
+    } else {
+      return res.status(401).json({
+        success: false,
+        message: 'Not authenticated'
+      });
+    }
+  } catch (error) {
+    console.error('Auth check error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Authentication check failed'
+    });
+  }
+});
+
 module.exports = router; 

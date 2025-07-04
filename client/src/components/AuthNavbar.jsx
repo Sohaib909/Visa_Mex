@@ -97,14 +97,13 @@ const AuthNavbar = () => {
         <div className="flex items-center">
           <button
             onClick={() => navigate("/dashboard")}
-            className="text-[32px] sm:text-[42px] leading-[100%] tracking-[0%] hover:opacity-80 transition-opacity"
+            className="hover:opacity-80 transition-opacity"
           >
-            <span className="font-black" style={{ fontWeight: 900, color: "#5576D9" }}>
-              MEX
-            </span>
-            <span className="font-medium" style={{ fontWeight: 500, color: "#1B3276" }}>
-              VISA
-            </span>
+            <img
+              src="/MEXVISA.svg"
+              alt="MEXVISA Logo"
+              className="h-[32px] w-[100px] object-contain"
+            />
           </button>
         </div>
 

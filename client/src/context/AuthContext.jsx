@@ -30,33 +30,19 @@ export const AuthProvider = ({ children }) => {
 
   // Check authentication status on app startup
   useEffect(() => {
-    const checkAuthStatus = () => {
+    const checkAuthStatus = async () => {
       try {
-        const token = localStorage.getItem('token') || localStorage.getItem('authToken');
-        const userData = localStorage.getItem('user') || localStorage.getItem('userData');
-
-        console.log('Checking auth status:', { token: !!token, userData: !!userData });
-
-        if (token && userData) {
-          try {
-            const parsedUser = JSON.parse(userData);
-            console.log('Parsed user:', parsedUser);
-            
-            // Quick validation - check if user data is valid
-            if (parsedUser && (parsedUser._id || parsedUser.id || parsedUser.email)) {
-              setUser(parsedUser);
-              setIsAuthenticated(true);
-              console.log('User authenticated from localStorage');
-            } else {
-              console.log('Invalid user data, clearing auth state');
-              clearAuthState();
-            }
-          } catch (parseError) {
-            console.log('User data parse error:', parseError);
-            clearAuthState();
-          }
+        console.log('Checking authentication status on app load...');
+        
+        // Use the improved auth check that validates both session and JWT
+        const authResult = await authApi.checkAuthStatus();
+        
+        if (authResult.success && authResult.user) {
+          setUser(authResult.user);
+          setIsAuthenticated(true);
+          console.log(`User authenticated via ${authResult.authMethod}:`, authResult.user);
         } else {
-          console.log('No token or user data found, clearing auth state');
+          console.log('No valid authentication found, clearing state');
           clearAuthState();
         }
       } catch (err) {
@@ -67,10 +53,10 @@ export const AuthProvider = ({ children }) => {
       }
     };
 
-    // Add a small delay to ensure localStorage is fully available
+    // Add a small delay to ensure all systems are ready
     const timeoutId = setTimeout(checkAuthStatus, 100);
     return () => clearTimeout(timeoutId);
-  }, [clearAuthState]);
+  }, [authApi, clearAuthState]);
 
   const login = useCallback(async (email, password) => {
     setError(null);
@@ -104,17 +90,17 @@ export const AuthProvider = ({ children }) => {
     console.log('Logout initiated...');
     
     try {
-      // Call API logout if available
-      if (authApi && authApi.logout) {
-        await authApi.logout();
-      }
+      // Call the improved API logout that clears both session and JWT
+      await authApi.logout();
+      console.log('Server logout completed');
     } catch (err) {
-      console.error('API Logout error:', err);
+      console.error('Server logout error:', err);
+      // Continue with local cleanup even if server logout fails
     }
     
-    // Always clear local state regardless of API call result
+    // Always clear local state
     clearAuthState();
-    console.log('Logout completed, state cleared');
+    console.log('Local auth state cleared');
     
     return { success: true };
   }, [authApi, clearAuthState]);

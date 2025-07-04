@@ -40,6 +40,7 @@ export const translations = {
 
     // Info Section
     info: {
+      title: "Why Choose Us?",
       processVisaTitle: "Process your visa application quickly and easily",
       processVisaDesc: "We streamline the entire visa application process, making it simple and stress-free. From document verification to submission, we handle everything so you can focus on planning your trip.",
       expertSupportTitle: "Expert support every step of the way",
@@ -92,7 +93,7 @@ export const translations = {
 
     // About Us Page
     about: {
-      title: "About MEXVISA",
+      title: "Simplify Your Visa Application Today!",
       subtitle: "Your trusted partner for Mexican visa applications",
       missionTitle: "Our Mission",
       missionText: "We are dedicated to simplifying the Mexican visa application process for travelers worldwide. Our mission is to provide fast, secure, and reliable visa processing services with exceptional customer support.",
@@ -191,6 +192,7 @@ export const translations = {
 
     // Info Section
     info: {
+      title: "¿Por Qué Elegirnos?",
       processVisaTitle: "Procesa tu solicitud de visa rápida y fácilmente",
       processVisaDesc: "Simplificamos todo el proceso de solicitud de visa, haciéndolo simple y sin estrés. Desde la verificación de documentos hasta la presentación, manejamos todo para que puedas enfocarte en planificar tu viaje.",
       expertSupportTitle: "Soporte experto en cada paso del camino",
@@ -243,7 +245,7 @@ export const translations = {
 
     // About Us Page
     about: {
-      title: "Acerca de MEXVISA",
+      title: "¡Simplifica tu Solicitud de Visa Hoy!",
       subtitle: "Tu socio de confianza para solicitudes de visa mexicana",
       missionTitle: "Nuestra Misión",
       missionText: "Nos dedicamos a simplificar el proceso de solicitud de visa mexicana para viajeros de todo el mundo. Nuestra misión es proporcionar servicios de procesamiento de visa rápidos, seguros y confiables con soporte al cliente excepcional.",

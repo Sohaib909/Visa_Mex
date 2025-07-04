@@ -21,17 +21,17 @@ const HeroSection = () => {
       className="w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-16 relative overflow-hidden"
       style={{ backgroundColor: "#F7F9FD" }}
     >
-      {/* Gradient Images - Equal level positioning at bottom */}
+      {/* Gradient Images - Enhanced and more prominent */}
       <div className="absolute inset-0 w-full h-full pointer-events-none">
         <img 
           src="/Aboutgradient1.png" 
           alt="" 
-          className="absolute -bottom-20 -right-20 w-96 h-96 object-contain transform rotate-270"
+          className="absolute -bottom-10 -right-10 w-[32rem] h-[32rem] lg:w-[40rem] lg:h-[40rem] xl:w-[48rem] xl:h-[48rem] object-contain transform rotate-270 opacity-80"
         />
         <img 
           src="/Aboutgradient2.png" 
           alt="" 
-          className="absolute -bottom-20 -left-20 w-96 h-96 object-contain transform rotate-270"
+          className="absolute -bottom-10 -left-10 w-[32rem] h-[32rem] lg:w-[40rem] lg:h-[40rem] xl:w-[48rem] xl:h-[48rem] object-contain transform rotate-270 opacity-80"
         />
       </div>
       <div className="max-w-screen-2xl mx-auto relative z-10">

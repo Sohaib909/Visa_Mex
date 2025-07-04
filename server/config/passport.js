@@ -6,8 +6,8 @@ const User = require('../models/User');
 // Ensure environment variables are loaded
 require('dotenv').config();
 
-// Debug: Log environment variables (remove in production)
-console.log('🔍 Debug - Environment Variables:');
+// Debug: Log environment variables 
+console.log(' Debug - Environment Variables:');
 console.log('GOOGLE_CLIENT_ID:', process.env.GOOGLE_CLIENT_ID ? 'Found' : 'Missing');
 console.log('GOOGLE_CLIENT_SECRET:', process.env.GOOGLE_CLIENT_SECRET ? 'Found' : 'Missing');
 console.log('FACEBOOK_APP_ID:', process.env.FACEBOOK_APP_ID ? 'Found' : 'Missing');
@@ -33,7 +33,7 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
   passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: `${process.env.BACKEND_URL || 'http://localhost:5000'}/api/auth/google/callback`
+    callbackURL: "http://localhost:5000/api/auth/google/callback"
   }, async (accessToken, refreshToken, profile, done) => {
     try {
       // Check if user already exists with Google ID
@@ -62,8 +62,8 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
         email: profile.emails[0].value,
         profilePicture: profile.photos[0]?.value,
         authProvider: 'google',
-        isEmailVerified: true, // Google emails are pre-verified
-        role: 'user' // Default role, can be changed later
+        isEmailVerified: true, 
+        role: 'user' 
       });
 
       done(null, newUser);
@@ -72,7 +72,7 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
     }
   }));
 } else {
-  console.log('⚠️  Google OAuth not configured - GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET not found in environment variables');
+  console.log('  Google OAuth not configured - GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET not found in environment variables');
 }
 
 // Facebook OAuth Strategy - Only initialize if credentials are available
@@ -80,7 +80,7 @@ if (process.env.FACEBOOK_APP_ID && process.env.FACEBOOK_APP_SECRET) {
   passport.use(new FacebookStrategy({
     clientID: process.env.FACEBOOK_APP_ID,
     clientSecret: process.env.FACEBOOK_APP_SECRET,
-    callbackURL: `${process.env.BACKEND_URL || 'http://localhost:5000'}/api/auth/facebook/callback`,
+    callbackURL: "http://localhost:5000/api/auth/facebook/callback",
     profileFields: ['id', 'displayName', 'name', 'emails', 'picture.type(large)']
   }, async (accessToken, refreshToken, profile, done) => {
     try {
@@ -124,7 +124,7 @@ if (process.env.FACEBOOK_APP_ID && process.env.FACEBOOK_APP_SECRET) {
     }
   }));
 } else {
-  console.log('⚠️  Facebook OAuth not configured - FACEBOOK_APP_ID and FACEBOOK_APP_SECRET not found in environment variables');
+  console.log(' Facebook OAuth not configured - FACEBOOK_APP_ID and FACEBOOK_APP_SECRET not found in environment variables');
 }
 
 module.exports = passport; 

@@ -18,27 +18,27 @@ const AboutUs = () => {
       <div className="pt-8">
         {/* Enhanced About Us Hero Section with Gradient Images */}
         <div className="relative overflow-hidden" style={{ backgroundColor: "#F7F9FD" }}>
-          {/* Gradient Images */}
+          {/* Gradient Images - Enhanced and reversed order */}
           <div className="absolute inset-0 w-full h-full pointer-events-none">
-            <img 
-              src="/Aboutgradient1.png" 
-              alt="" 
-              className="absolute -bottom-20 -left-20 w-96 h-96 object-contain transform rotate-180"
-            />
             <img 
               src="/Aboutgradient2.png" 
               alt="" 
-              className="absolute -bottom-20 -right-20 w-96 h-96 object-contain transform rotate-180"
+              className="absolute -bottom-10 -left-10 w-[32rem] h-[32rem] lg:w-[40rem] lg:h-[40rem] xl:w-[48rem] xl:h-[48rem] object-contain transform rotate-270 opacity-70"
+            />
+            <img 
+              src="/Aboutgradient1.png" 
+              alt="" 
+              className="absolute -bottom-10 -right-10 w-[32rem] h-[32rem] lg:w-[40rem] lg:h-[40rem] xl:w-[48rem] xl:h-[48rem] object-contain transform rotate-270 opacity-80"
             />
           </div>
           
           <div className="relative z-10 max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
             <div className="text-center mb-20">
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-8">
-                 <span style={{ color: "#1B3276" }}>Simplify Your Visa Application Today!</span>
+                 <span style={{ color: "#1B3276" }}>{t("about.title")}</span>
               </h1>
-              <p className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto mb-10 leading-relaxed">
-                {t("about.subtitle")}
+              <p className="text-xl md:text-2xl max-w-4xl mx-auto mb-10 leading-relaxed" style={{ color: '#101E46' }}>
+                Effortless, secure, and fast visa processing for Mexican passport holders. With live support, real-time tracking, and automated features, we make your journey stress-free from start to finish.
               </p>
               <button className="bg-blue-800 hover:bg-[#294DB6] text-white font-semibold px-10 py-4 rounded-xl text-lg transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 transform">
                 {t("about.startApplication")}
@@ -62,7 +62,7 @@ const AboutUs = () => {
             </div>
             <div>
               <img 
-                src="/About1.png" 
+                src="/About2.png" 
                 alt="About MEXVISA - Our Mission" 
                 className="w-full h-auto rounded-lg shadow-lg"
                 onError={(e) => {

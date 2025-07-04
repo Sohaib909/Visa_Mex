@@ -1,4 +1,8 @@
+import { useLanguage } from '../context/LanguageContext';
+
 const InfoSection = () => {
+  const { t } = useLanguage();
+  
   const features = [
     {
       icon: "/icon1.png",
@@ -35,7 +39,7 @@ const InfoSection = () => {
           <div className="inline-flex items-center justify-center px-3 py-1.5 rounded-full mb-4" style={{ backgroundColor: "rgba(85, 118, 217, 0.2)" }}>
             <p className="text-[#3B5998] text-xs font-medium tracking-wide">All Faculties</p>
           </div>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#1B3276] mb-4">Why Choose Us?</h2>
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#1B3276] mb-4">{t("info.title")}</h2>
         </div>
 
         {/* Features Grid */}

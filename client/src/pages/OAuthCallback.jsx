@@ -22,8 +22,8 @@ const OAuthCallback = () => {
         localStorage.setItem('authToken', token);
         localStorage.setItem('userData', decodeURIComponent(user));
         
-        // Redirect to home page
-        navigate('/');
+        // Redirect to dashboard (consistent with regular login)
+        navigate('/dashboard');
       } catch (err) {
         console.error('Error processing OAuth callback:', err);
         navigate('/login?error=oauth_processing_failed');

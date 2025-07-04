@@ -1,7 +1,9 @@
 import { useState } from "react"
 import { ChevronDownIcon } from "@heroicons/react/24/outline"
+import { useLanguage } from '../context/LanguageContext';
 
 const FAQSection = () => {
+  const { t } = useLanguage();
   const [openFAQ, setOpenFAQ] = useState(null)
 
   const faqs = [
@@ -56,7 +58,7 @@ const FAQSection = () => {
           <div className="inline-flex items-center justify-center px-3 py-1.5 rounded-full mb-4" style={{ backgroundColor: "rgba(85, 118, 217, 0.2)" }}>
             <p className="text-xs font-medium tracking-wide" style={{ color: "#294DB6" }}>FAQ</p>
           </div>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#1B3276]">Frequently Asked Questions</h2>
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#1B3276]">{t("faq.title")}</h2>
         </div>
 
         {/* FAQ Items */}

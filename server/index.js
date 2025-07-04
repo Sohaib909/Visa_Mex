@@ -27,6 +27,15 @@ app.use(session({
   }
 }));
 
+// Session health check middleware
+app.use((req, res, next) => {
+  // Verify session is available
+  if (!req.session) {
+    console.warn('⚠️  Session not available on request object');
+  }
+  next();
+});
+
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
@@ -36,7 +45,6 @@ app.use(cors({
     'http://localhost:3000',
     'http://localhost:5173',
     'http://127.0.0.1:5173',
-    'https://visa-mex-internal.vercel.app',
     process.env.CLIENT_URL
   ].filter(Boolean),
   credentials: true,
@@ -77,22 +85,22 @@ app.get('/api/test', (req, res) => {
 try {
   const testRoutes = require('./routes/testRoutes');
   app.use('/api/test-extended', testRoutes);
-  console.log('✅ Test routes loaded successfully');
+  console.log(' Test routes loaded successfully');
 } catch (error) {
-  console.error('❌ Error loading test routes:', error.message);
+  console.error(' Error loading test routes:', error.message);
 }
 
 try {
   const authRoutes = require('./routes/authRoutes');
   app.use('/api/auth', authRoutes);
-  console.log('✅ Auth routes loaded successfully');
-  console.log('📍 Available auth endpoints:');
+  console.log(' Auth routes loaded successfully');
+  console.log(' Available auth endpoints:');
   console.log('   POST /api/auth/register');
   console.log('   POST /api/auth/login');
   console.log('   POST /api/auth/verify-email');
 } catch (error) {
-  console.error('❌ Error loading auth routes:', error.message);
-  console.error('❌ Full error:', error);
+  console.error(' Error loading auth routes:', error.message);
+  console.error(' Full error:', error);
 }
 
 
@@ -109,21 +117,21 @@ connectDatabase();
 
 
 const server = app.listen(PORT, () => {
-  console.log(`✅ Server is running on port ${PORT}`);
-  console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`🔗 Server URL: http://localhost:${PORT}`);
-  console.log(`🔄 CORS enabled for frontend: http://localhost:5173`);
+  console.log(` Server is running on port ${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(` Server URL: http://localhost:${PORT}`);
+  console.log(` CORS enabled for frontend: http://localhost:5173`);
 }).on('error', (err) => {
   if (err.code === 'EADDRINUSE') {
-    console.log(`❌ Port ${PORT} is already in use. Trying port ${PORT + 1}...`);
+    console.log(` Port ${PORT} is already in use. Trying port ${PORT + 1}...`);
     const newPort = PORT + 1;
     app.listen(newPort, () => {
-      console.log(`✅ Server is running on port ${newPort}`);
-      console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
-      console.log(`🔗 Server URL: http://localhost:${newPort}`);
-      console.log(`⚠️  Remember to update your frontend API URL to: http://localhost:${newPort}`);
+      console.log(` Server is running on port ${newPort}`);
+      console.log(` Environment: ${process.env.NODE_ENV || 'development'}`);
+      console.log(` Server URL: http://localhost:${newPort}`);
+      console.log(`  Remember to update your frontend API URL to: http://localhost:${newPort}`);
     });
   } else {
-    console.error('❌ Server error:', err);
+    console.error(' Server error:', err);
   }
 }); 

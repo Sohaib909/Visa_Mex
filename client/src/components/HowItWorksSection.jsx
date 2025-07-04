@@ -85,7 +85,7 @@ const HowItWorksSection = () => {
         {/* Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 xl:gap-16 items-stretch">
           {/* Left Side - Steps */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 p-4 sm:p-6 lg:p-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 p-4 sm:p-6 lg:p-1">
             {steps.map((step, index) => (
               <div key={index} className="space-y-3 sm:space-y-4">
                 {/* Step Number - Square */}

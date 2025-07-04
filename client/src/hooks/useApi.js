@@ -150,8 +150,69 @@ const useApi = () => {
     },
 
     // Logout
-    logout: () => {
-      clearAuthData();
+    logout: async () => {
+      try {
+        // Call server logout to clear session
+        await makeApiCall('/auth/logout', {
+          method: 'POST',
+        });
+      } catch (error) {
+        console.error('Server logout error:', error);
+      } finally {
+        // Always clear local auth data regardless of server response
+        clearAuthData();
+      }
+    },
+
+    // Check authentication status (checks both session and JWT)
+    checkAuthStatus: async () => {
+      try {
+        const token = getToken();
+        const headers = {};
+        
+        // Include JWT token if available
+        if (token) {
+          headers.Authorization = `Bearer ${token}`;
+        }
+        
+        const response = await fetch(`${API_BASE_URL}/auth/me`, {
+          method: 'GET',
+          credentials: 'include', // Include session cookies
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            ...headers,
+          },
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success && data.user) {
+            // If we got a new token (session auth), store it
+            if (data.token) {
+              setToken(data.token);
+            }
+            
+            // Always update user data
+            setUserData(data.user);
+            
+            return {
+              success: true,
+              user: data.user,
+              authMethod: data.authMethod
+            };
+          }
+        }
+        
+        // If we reach here, authentication failed
+        clearAuthData();
+        return { success: false };
+        
+      } catch (error) {
+        console.error('Auth status check error:', error);
+        clearAuthData();
+        return { success: false };
+      }
     },
 
     // Forgot Password Flow

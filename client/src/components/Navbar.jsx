@@ -52,15 +52,12 @@ const Navbar = () => {
     <header className="w-full px-4 sm:px-6 lg:px-8 py-6 relative">
       <div className="max-w-screen-2xl mx-auto flex items-center justify-between">
         {/* Logo */}
-        <div className="flex items-center">
-          <h1 className="text-[32px] sm:text-[42px] leading-[100%] tracking-[0%]" style={{ width: "auto", height: "auto" }}>
-            <span className="font-black" style={{ fontWeight: 900, color: "#5576D9" }}>
-              MEX
-            </span>
-            <span className="font-medium" style={{ fontWeight: 500, color: "#1B3276" }}>
-              VISA
-            </span>
-          </h1>
+        <div className="flex  object-contain items-center focus-within:sr-only">
+          <img
+            src="/MEXVISA.svg"
+            alt="MEXVISA Logo"
+            className="h-[32px] w-[100px] object-contain"
+          />
         </div>
 
         {/* Desktop Menu - Hidden on mobile */}

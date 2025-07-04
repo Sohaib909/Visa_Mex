@@ -138,7 +138,7 @@ export default function VisaSections() {
             <div className="relative">
               <div className="rounded-2xl p-4 transform rotate-3">
                 <img
-                  src="/About2.png"
+                  src="/About1.png"
                   alt="Team collaboration meeting"
                   className="rounded-xl object-cover w-full h-80 transform -rotate-3"
                 />

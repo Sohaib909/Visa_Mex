@@ -2,8 +2,10 @@
 
 import { ChevronDown } from "lucide-react"
 import { useState } from "react"
+import { useLanguage } from '../context/LanguageContext';
 
 export default function FAQSection() {
+  const { t } = useLanguage();
   const [openItems, setOpenItems] = useState({})
 
   const toggleItem = (index) => {
@@ -51,12 +53,12 @@ export default function FAQSection() {
       {/* Gradient Images - Diagonal positioning (top-right and bottom-left) */}
       <div className="absolute inset-0 w-full h-full pointer-events-none">
         <img 
-          src="/Aboutgradient1.png" 
+          src="/Aboutgradient2.png" 
           alt="" 
           className="absolute -top-32 -right-32 w-[32rem] h-[32rem] object-contain transform rotate-180"
         />
         <img 
-          src="/Aboutgradient2.png" 
+          src="/Aboutgradient1.png" 
           alt="" 
           className="absolute -bottom-32 -left-32 w-[32rem] h-[32rem] object-contain transform rotate-180"
         />
@@ -65,7 +67,7 @@ export default function FAQSection() {
         {/* FAQ Header */}
         <div className="text-center mb-12">
           <p className="text-blue-600 text-sm font-medium mb-2">FAQ</p>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Frequently Asked Questions</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900">{t("faq.title")}</h2>
         </div>
 
         {/* FAQ Items */}
