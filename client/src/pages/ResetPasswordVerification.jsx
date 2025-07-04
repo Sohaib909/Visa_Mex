@@ -177,7 +177,7 @@ const ResetPasswordVerificationPage = () => {
                         onChange={(e) => handleCodeChange(index, e.target.value)}
                         onKeyDown={(e) => handleKeyDown(index, e)}
                         disabled={isSubmitting}
-                        className="w-12 h-12 sm:w-14 sm:h-14 text-center text-lg sm:text-xl font-semibold bg-white/90 border border-blue-800 rounded-full text-gray-700 focus:outline-none focus:border-transparent transition-all duration-200 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-12 h-12 sm:w-14 sm:h-14 text-center text-lg sm:text-xl font-semibold bg-white/90 border border-blue-800 rounded-full text-blue-500 focus:outline-none focus:border-transparent transition-all duration-200 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
                         style={{
                           focusRingColor: colors.primary,
                           boxShadow: "0 2px 4px rgba(0,0,0,0.05)",

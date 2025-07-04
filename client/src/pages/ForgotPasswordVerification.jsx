@@ -61,9 +61,9 @@ const ForgotPasswordVerificationPage = () => {
 
     setIsSubmitting(true)
 
-    // Since the backend doesn't have a separate verification endpoint,
-    // we'll just validate the code format and navigate to new password page
-    // The actual verification will happen when the user sets the new password
+    
+    
+    
     
     try {
       // Simple client-side validation before proceeding
@@ -93,8 +93,8 @@ const ForgotPasswordVerificationPage = () => {
     setError("")
     try {
       await authApi.forgotPassword(email)
-      setError("") // Clear any previous errors
-      // You could show a success message here if needed
+      setError("") 
+      
     } catch (err) {
       setError("Failed to resend code. Please try again.")
     }
@@ -102,7 +102,7 @@ const ForgotPasswordVerificationPage = () => {
 
   return (
     <div className="w-full min-h-screen relative overflow-hidden font-['Montserrat']">
-      {/* Background Image */}
+      
       <div
         className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
         style={{
@@ -118,26 +118,26 @@ const ForgotPasswordVerificationPage = () => {
         >
           {/* Card Container */}
           <div className={grid.container}>
-            {/* Right Side - Brand Section (60%) - FIRST ON MOBILE */}
+            
             <div
               className={`${grid.brandSection} ${brand.containerClasses} ${brand.padding}`}
               style={{ backgroundColor: brand.background }}
             >
-              {/* Decorative Background Pattern */}
+              
               <div
                 className={brand.backgroundPattern.classes}
                 style={brand.backgroundPattern.style}
               />
 
               <div className={`relative ${brand.contentMargin} z-10 text-center`}>
-                {/* Logo/Brand Name */}
+                
                 <div className={brand.logoMargin}>
                   <h1 className={typography.brandLogo}>
                     MEX<span className="font-light">VISA</span>
                   </h1>
                 </div>
 
-                {/* Welcome Message */}
+                
                 <div className={brand.textSpacing}>
                   <p className={typography.brandWelcome}>Welcome to</p>
                   <p className={typography.brandSubtitle}>MexVisa</p>
@@ -177,7 +177,7 @@ const ForgotPasswordVerificationPage = () => {
                         onChange={(e) => handleCodeChange(index, e.target.value)}
                         onKeyDown={(e) => handleKeyDown(index, e)}
                         disabled={isSubmitting}
-                        className="w-12 h-12 sm:w-14 sm:h-14 text-center text-lg sm:text-xl font-semibold bg-white/90 border border-blue-800 rounded-full text-gray-700 focus:outline-none focus:border-transparent transition-all duration-200 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-12 h-12 sm:w-14 sm:h-14 text-center text-lg sm:text-xl font-semibold bg-white/90 border border-blue-800 rounded-full text-blue-500 focus:outline-none focus:border-transparent transition-all duration-200 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
                         style={{
                           focusRingColor: colors.primary,
                           boxShadow: "0 2px 4px rgba(0,0,0,0.05)",

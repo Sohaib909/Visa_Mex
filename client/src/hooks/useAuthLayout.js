@@ -1,12 +1,6 @@
 import { authLayoutConfig, authColors, getContainerClasses, getContainerStyles } from '../config/responsiveConfig'
 
-/**
- * Custom hook for auth pages layout and styling
- * Provides centralized responsive classes and styles
- * 
- * Usage:
- * const { container, form, brand, typography, components } = useAuthLayout()
- */
+ 
 export const useAuthLayout = () => {
   return {
     // Main container configuration

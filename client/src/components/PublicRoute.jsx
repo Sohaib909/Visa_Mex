@@ -8,7 +8,7 @@ const PublicRoute = React.memo(({ children, redirectTo = "/" }) => {
 
   // Don't show loading screen, just redirect immediately if authenticated
   if (loading) {
-    return null; // Return nothing while checking
+    return null; 
   }
 
   // Redirect authenticated users away from auth pages
@@ -18,7 +18,6 @@ const PublicRoute = React.memo(({ children, redirectTo = "/" }) => {
     return <Navigate to={from} replace />;
   }
 
-  // Render children if not authenticated
   return children;
 });
 

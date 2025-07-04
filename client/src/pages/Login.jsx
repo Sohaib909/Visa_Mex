@@ -63,7 +63,9 @@ const LoginPage = () => {
       const response = await login(formData.email.trim(), formData.password)
 
       if (response && response.success) {
-        navigate("/")
+        // Check if there's a redirect location from protected route
+        const from = location.state?.from?.pathname || "/dashboard"
+        navigate(from, { replace: true })
       }
       // If login fails, error will be set by AuthContext
     } catch (err) {
@@ -95,8 +97,8 @@ const LoginPage = () => {
   }
 
   const handleGoogleSuccess = (data) => {
-    
-    navigate("/")
+    const from = location.state?.from?.pathname || "/dashboard"
+    navigate(from, { replace: true })
   }
 
   const handleGoogleError = (error) => {
@@ -105,8 +107,8 @@ const LoginPage = () => {
   }
 
   const handleFacebookSuccess = (data) => {
-    
-    navigate("/")
+    const from = location.state?.from?.pathname || "/dashboard"
+    navigate(from, { replace: true })
   }
 
   const handleFacebookError = (error) => {

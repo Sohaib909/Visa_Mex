@@ -17,41 +17,60 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { authApi, loading: apiLoading, error, setError } = useApi();
 
+  // Helper function to clear auth state
+  const clearAuthState = useCallback(() => {
+    setUser(null);
+    setIsAuthenticated(false);
+    setError(null);
+    localStorage.removeItem('user');
+    localStorage.removeItem('userData');
+    localStorage.removeItem('token');
+    localStorage.removeItem('authToken');
+  }, [setError]);
+
   // Check authentication status on app startup
   useEffect(() => {
-    const checkAuthStatus = async () => {
+    const checkAuthStatus = () => {
       try {
         const token = localStorage.getItem('token') || localStorage.getItem('authToken');
         const userData = localStorage.getItem('user') || localStorage.getItem('userData');
 
+        console.log('Checking auth status:', { token: !!token, userData: !!userData });
+
         if (token && userData) {
           try {
             const parsedUser = JSON.parse(userData);
-            // Quick validation - just check if token exists and user data is valid
-            if (parsedUser && parsedUser._id) {
+            console.log('Parsed user:', parsedUser);
+            
+            // Quick validation - check if user data is valid
+            if (parsedUser && (parsedUser._id || parsedUser.id || parsedUser.email)) {
               setUser(parsedUser);
               setIsAuthenticated(true);
+              console.log('User authenticated from localStorage');
             } else {
-              await logout();
+              console.log('Invalid user data, clearing auth state');
+              clearAuthState();
             }
           } catch (parseError) {
             console.log('User data parse error:', parseError);
-            await logout();
+            clearAuthState();
           }
         } else {
-          setIsAuthenticated(false);
-          setUser(null);
+          console.log('No token or user data found, clearing auth state');
+          clearAuthState();
         }
       } catch (err) {
         console.error('Auth check error:', err);
-        await logout();
+        clearAuthState();
       } finally {
         setLoading(false);
       }
     };
 
-    checkAuthStatus();
-  }, []);
+    // Add a small delay to ensure localStorage is fully available
+    const timeoutId = setTimeout(checkAuthStatus, 100);
+    return () => clearTimeout(timeoutId);
+  }, [clearAuthState]);
 
   const login = useCallback(async (email, password) => {
     setError(null);
@@ -59,9 +78,16 @@ export const AuthProvider = ({ children }) => {
       const response = await authApi.login({ email, password });
       
       if (response.success) {
-        setUser(response.data.user || response.user);
+        const userData = response.data?.user || response.user;
+        
+        // The useApi hook already stores the token and user data
+        // We just need to update the React state
+        setUser(userData);
         setIsAuthenticated(true);
-        return { success: true, user: response.data.user || response.user };
+        
+        console.log('Login successful, user data:', userData);
+        
+        return { success: true, user: userData };
       } else {
         const errorMessage = response.message || 'Login failed';
         setError(errorMessage);
@@ -75,27 +101,23 @@ export const AuthProvider = ({ children }) => {
   }, [authApi, setError]);
 
   const logout = useCallback(async () => {
+    console.log('Logout initiated...');
+    
     try {
-      authApi.logout();
-      
-      setUser(null);
-      setIsAuthenticated(false);
-      setError(null);
-      
-      localStorage.removeItem('user');
-      localStorage.removeItem('userData');
-      localStorage.removeItem('token');
-      localStorage.removeItem('authToken');
-      
-      return { success: true };
+      // Call API logout if available
+      if (authApi && authApi.logout) {
+        await authApi.logout();
+      }
     } catch (err) {
-      console.error('Logout error:', err);
-      setUser(null);
-      setIsAuthenticated(false);
-      localStorage.clear();
-      return { success: true };
+      console.error('API Logout error:', err);
     }
-  }, [authApi]);
+    
+    // Always clear local state regardless of API call result
+    clearAuthState();
+    console.log('Logout completed, state cleared');
+    
+    return { success: true };
+  }, [authApi, clearAuthState]);
 
   const register = useCallback(async (userData) => {
     setError(null);

@@ -127,8 +127,7 @@ const SignupPage = () => {
   }
 
   const handleGoogleSuccess = (data) => {
-    
-    navigate("/")
+    navigate("/dashboard", { replace: true })
   }
 
   const handleGoogleError = (error) => {
@@ -137,7 +136,7 @@ const SignupPage = () => {
   }
 
   const handleFacebookSuccess = (data) => {
-    navigate("/")
+    navigate("/dashboard", { replace: true })
   }
 
   const handleFacebookError = (error) => {

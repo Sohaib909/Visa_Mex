@@ -1,8 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from '../context/AuthContext';
+import { LanguageProvider } from '../context/LanguageContext';
 import ProtectedRoute from '../components/ProtectedRoute';
 import PublicRoute from '../components/PublicRoute';
 import Home from '../pages/Home';
+import Dashboard from '../pages/Dashboard';
+import AboutUs from '../pages/AboutUs';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
 import ResetPassword from '../pages/ResetPassword';
@@ -17,14 +20,19 @@ import OAuthCallback from '../pages/OAuthCallback';
 const AppRouter = () => {
   return (
     <Router>
-      <AuthProvider>
-        <Routes>
+      <LanguageProvider>
+        <AuthProvider>
+          <Routes>
+          {/* Public Routes - Default Landing Page */}
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<AboutUs />} />
+          
           {/* Protected Routes - Require Authentication */}
           <Route 
-            path="/" 
+            path="/dashboard" 
             element={
               <ProtectedRoute>
-                <Home />
+                <Dashboard />
               </ProtectedRoute>
             } 
           />
@@ -33,7 +41,7 @@ const AppRouter = () => {
           <Route 
             path="/login" 
             element={
-              <PublicRoute>
+              <PublicRoute redirectTo="/dashboard">
                 <Login />
               </PublicRoute>
             } 
@@ -41,7 +49,7 @@ const AppRouter = () => {
           <Route 
             path="/register" 
             element={
-              <PublicRoute>
+              <PublicRoute redirectTo="/dashboard">
                 <Signup />
               </PublicRoute>
             } 
@@ -49,7 +57,7 @@ const AppRouter = () => {
           <Route 
             path="/signup-verification" 
             element={
-              <PublicRoute>
+              <PublicRoute redirectTo="/dashboard">
                 <SignupVerification />
               </PublicRoute>
             } 
@@ -57,7 +65,7 @@ const AppRouter = () => {
           <Route 
             path="/forgot-password" 
             element={
-              <PublicRoute>
+              <PublicRoute redirectTo="/dashboard">
                 <ForgotPassword />
               </PublicRoute>
             } 
@@ -65,7 +73,7 @@ const AppRouter = () => {
           <Route 
             path="/forgot-password-verification" 
             element={
-              <PublicRoute>
+              <PublicRoute redirectTo="/dashboard">
                 <ForgotPasswordVerification />
               </PublicRoute>
             } 
@@ -73,7 +81,7 @@ const AppRouter = () => {
           <Route 
             path="/reset-password" 
             element={
-              <PublicRoute>
+              <PublicRoute redirectTo="/dashboard">
                 <ResetPassword />
               </PublicRoute>
             } 
@@ -81,7 +89,7 @@ const AppRouter = () => {
           <Route 
             path="/reset-password-verification" 
             element={
-              <PublicRoute>
+              <PublicRoute redirectTo="/dashboard">
                 <ResetPasswordVerification />
               </PublicRoute>
             } 
@@ -89,7 +97,7 @@ const AppRouter = () => {
           <Route 
             path="/new-password" 
             element={
-              <PublicRoute>
+              <PublicRoute redirectTo="/dashboard">
                 <NewPassword />
               </PublicRoute>
             } 
@@ -112,8 +120,9 @@ const AppRouter = () => {
               </div>
             } 
           />
-        </Routes>
-      </AuthProvider>
+          </Routes>
+        </AuthProvider>
+      </LanguageProvider>
     </Router>
   );
 };
