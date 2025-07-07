@@ -147,7 +147,14 @@ export const translations = {
       save: "Save",
       edit: "Edit",
       delete: "Delete",
-      confirm: "Confirm"
+      confirm: "Confirm",
+      pageNotFound: "Page Not Found",
+      pageNotFoundDesc: "The page you are looking for does not exist or has been moved.",
+      goToHome: "Go to Home",
+      goToDashboard: "Go to Dashboard",
+      goBack: "Go Back",
+      loggedInAs: "You are currently logged in",
+      notLoggedIn: "You are not logged in"
     }
   },
 
@@ -299,7 +306,14 @@ export const translations = {
       save: "Guardar",
       edit: "Editar",
       delete: "Eliminar",
-      confirm: "Confirmar"
+      confirm: "Confirmar",
+      pageNotFound: "Página No Encontrada",
+      pageNotFoundDesc: "La página que buscas no existe o ha sido movida.",
+      goToHome: "Ir al Inicio",
+      goToDashboard: "Ir al Panel",
+      goBack: "Regresar",
+      loggedInAs: "Actualmente has iniciado sesión",
+      notLoggedIn: "No has iniciado sesión"
     }
   }
 }; 

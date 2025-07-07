@@ -60,7 +60,7 @@ class Helpers {
         } else if (key !== 'password') {
           sanitized[key] = value.trim();
         } else {
-          sanitized[key] = value; // Don't trim passwords
+          sanitized[key] = value; 
         }
       } else {
         sanitized[key] = value;

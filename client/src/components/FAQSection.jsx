@@ -38,7 +38,7 @@ const FAQSection = () => {
   }
 
   return (
-    <section className="w-full py-12 sm:py-16 bg-white relative overflow-hidden">
+    <section className="w-full py-12 sm:py-16 bg-blue-50 relative overflow-hidden ">
       {/* Gradient Images - Reversed diagonal positioning */}
       <div className="absolute inset-0 w-full h-full pointer-events-none">
         <img 
@@ -55,8 +55,8 @@ const FAQSection = () => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 relative z-10">
         {/* Header */}
         <div className="text-center mb-8 sm:mb-12">
-          <div className="inline-flex items-center justify-center px-3 py-1.5 rounded-full mb-4" style={{ backgroundColor: "rgba(85, 118, 217, 0.2)" }}>
-            <p className="text-xs font-medium tracking-wide" style={{ color: "#294DB6" }}>FAQ</p>
+          <div className="inline-flex items-center justify-center  px-3 py-1.5 rounded-md mb-4" style={{ backgroundColor: "rgba(85, 118, 217, 0.2)" }}>
+            <p className="text-lg font-medium tracking-wide" style={{ color: "#294DB6" }}>FAQ</p>
           </div>
           <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#1B3276]">{t("faq.title")}</h2>
         </div>

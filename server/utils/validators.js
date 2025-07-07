@@ -12,7 +12,7 @@ class Validators {
 
   // Phone number validation (basic)
   static isValidPhoneNumber(phoneNumber) {
-    if (!phoneNumber) return true; // Optional field
+    if (!phoneNumber) return true; 
     const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
     return phoneRegex.test(phoneNumber.replace(/[\s\-\(\)]/g, ''));
   }

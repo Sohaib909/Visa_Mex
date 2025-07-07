@@ -16,6 +16,7 @@ import ForgotPasswordVerification from '../pages/ForgotPasswordVerification';
 import NewPassword from '../pages/NewPassword';
 import PopUpPasswordChange from '../pages/PopUpPasswordChange';
 import OAuthCallback from '../pages/OAuthCallback';
+import NotFound from '../components/NotFound';
 
 const AppRouter = () => {
   return (
@@ -108,18 +109,7 @@ const AppRouter = () => {
           <Route path="/login/callback" element={<OAuthCallback />} />
           
           {/* 404 Route */}
-          <Route 
-            path="*" 
-            element={
-              <div className="min-h-screen flex items-center justify-center">
-                <div className="text-center">
-                  <h1 className="text-4xl font-bold text-gray-800 mb-4">404 - Page Not Found</h1>
-                  <p className="text-gray-600 mb-8">The page you are looking for does not exist.</p>
-                  <a href="/" className="btn-primary">Go Back Home</a>
-                </div>
-              </div>
-            } 
-          />
+          <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
       </LanguageProvider>

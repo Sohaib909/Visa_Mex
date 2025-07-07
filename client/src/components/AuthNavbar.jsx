@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useLanguage } from "../context/LanguageContext";
 import { ChevronDownIcon, UserCircleIcon, UserIcon, ClockIcon, ArrowRightOnRectangleIcon, Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
@@ -7,16 +7,29 @@ import { ChevronDownIcon, UserCircleIcon, UserIcon, ClockIcon, ArrowRightOnRecta
 const AuthNavbar = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const { currentLanguage, changeLanguage, t } = useLanguage();
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const profileDropdownRef = useRef(null);
 
   const languages = [
     { code: "EN", name: t("language.english") },
     { code: "ES", name: t("language.spanish") }
   ];
+
+  // Handle scroll to make navbar sticky
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      setIsScrolled(scrollTop > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -60,24 +73,23 @@ const AuthNavbar = () => {
 
   const renderFlag = (langCode) => {
     if (langCode === "EN") {
-      // US Flag
       return (
-        <div className="w-6 h-4 relative overflow-hidden rounded-sm">
-          <div className="absolute inset-0 bg-red-600"></div>
-          <div className="absolute top-0 left-0 w-full h-1 bg-red-600"></div>
-          <div className="absolute top-1 left-0 w-full h-0.5 bg-white"></div>
-          <div className="absolute top-2 left-0 w-full h-0.5 bg-red-600"></div>
-          <div className="absolute top-3 left-0 w-full h-0.5 bg-white"></div>
-          <div className="absolute top-0 left-0 w-2.5 h-2 bg-blue-800"></div>
+        <div className="w-6 h-6 relative overflow-hidden rounded-full">
+          <img 
+            src="/english.png" 
+            alt="English Flag" 
+            className="w-full h-full object-cover"
+          />
         </div>
       )
     } else if (langCode === "ES") {
-      // Spanish Flag
       return (
-        <div className="w-6 h-4 relative overflow-hidden rounded-sm">
-          <div className="absolute top-0 left-0 w-full h-1 bg-red-600"></div>
-          <div className="absolute top-1 left-0 w-full h-2 bg-yellow-400"></div>
-          <div className="absolute bottom-0 left-0 w-full h-1 bg-red-600"></div>
+        <div className="w-6 h-6 relative overflow-hidden rounded-full">
+          <img 
+            src="/maxican.jpg" 
+            alt="Mexican Flag" 
+            className="w-full h-full object-cover"
+          />
         </div>
       )
     }
@@ -90,8 +102,14 @@ const AuthNavbar = () => {
     { name: t("nav.myApplications"), href: "/my-applications" },
   ];
 
+  const isActiveRoute = (href) => {
+    return location.pathname === href;
+  };
+
   return (
-    <header className="w-full px-4 sm:px-6 lg:px-8 py-6 bg-white shadow-sm relative z-40">
+    <header className={`w-full px-4 sm:px-6 lg:px-8 py-6 shadow-sm transition-all duration-300 ${
+      isScrolled ? 'sticky top-0 z-50 bg-white' : 'relative bg-gray-200'
+    }`}>
       <div className="max-w-screen-2xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center">
@@ -111,25 +129,32 @@ const AuthNavbar = () => {
         <div className="hidden lg:flex items-center space-x-8">
           {/* Navigation Links */}
           <nav className="flex items-center space-x-8">
-            {navItems.map((item) => (
-              <button
-                key={item.name}
-                onClick={() => navigate(item.href)}
-                className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
-              >
-                {item.name}
-              </button>
-            ))}
+            {navItems.map((item) => {
+              const isActive = isActiveRoute(item.href);
+              return (
+                <button
+                  key={item.name}
+                  onClick={() => navigate(item.href)}
+                  className={`transition-colors border-b-2 pb-1 ${
+                    isActive 
+                      ? 'text-blue-900 font-bold border-blue-900' 
+                      : 'text-blue-900 hover:text-blue-900 font-normal border-transparent hover:border-blue-900'
+                  }`}
+                >
+                  {item.name}
+                </button>
+              );
+            })}
           </nav>
 
           {/* Language Selector */}
           <div className="relative">
             <button
               onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}
-              className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors"
+              className="flex items-center space-x-2 px-3 py-2 rounded-lg  transition-colors"
             >
               {renderFlag(currentLanguage)}
-              <span className="text-gray-700 font-medium">{currentLanguage}</span>
+              <span className="text-blue-900 font-medium">{currentLanguage}</span>
               <ChevronDownIcon className="w-4 h-4 text-gray-500" />
             </button>
 
@@ -142,7 +167,7 @@ const AuthNavbar = () => {
                       changeLanguage(lang.code);
                       setIsLanguageDropdownOpen(false);
                     }}
-                    className="flex items-center space-x-3 w-full text-left px-4 py-2 hover:bg-gray-50 text-gray-700"
+                    className="flex items-center space-x-3 w-full text-left px-4 py-2 hover:bg-gray-50 text-blue-900"
                   >
                     {renderFlag(lang.code)}
                     <span>{lang.name}</span>
@@ -153,12 +178,17 @@ const AuthNavbar = () => {
           </div>
 
           {/* Profile Dropdown */}
-          <div className="relative" ref={profileDropdownRef}>
+          <div className="relative " ref={profileDropdownRef}>
             <button
               onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
-              className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-50 transition-colors"
+              className="flex items-center justify-center w-8 h-8 rounded-full hover:opacity-80 transition-colors"
+              style={{ backgroundColor: "#587E89" }}
             >
-              <UserCircleIcon className="w-8 h-8 text-gray-600" />
+              <img 
+                src="/profile2.svg" 
+                alt="Profile" 
+                className="w-[25px] h-[25px] object-contain"
+              />
             </button>
 
             {isProfileDropdownOpen && (
@@ -247,18 +277,25 @@ const AuthNavbar = () => {
             {/* Mobile Navigation Links */}
             <div className="pb-4 border-b border-gray-200">
               <nav className="space-y-3">
-                {navItems.map((item) => (
-                  <button
-                    key={item.name}
-                    onClick={() => {
-                      navigate(item.href);
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className="block w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 font-medium transition-colors rounded-lg"
-                  >
-                    {item.name}
-                  </button>
-                ))}
+                {navItems.map((item) => {
+                  const isActive = isActiveRoute(item.href);
+                  return (
+                    <button
+                      key={item.name}
+                      onClick={() => {
+                        navigate(item.href);
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className={`block w-full text-left px-3 py-2 transition-colors rounded-lg border-l-4 ${
+                        isActive 
+                          ? 'text-blue-900 font-bold border-blue-900 bg-blue-50' 
+                          : 'text-blue-900 hover:text-blue-600 font-normal border-transparent hover:bg-blue-50'
+                      }`}
+                    >
+                      {item.name}
+                    </button>
+                  );
+                })}
               </nav>
             </div>
 
@@ -270,7 +307,7 @@ const AuthNavbar = () => {
                   className="flex items-center space-x-2 w-full px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors"
                 >
                   {renderFlag(currentLanguage)}
-                  <span className="text-gray-700 font-medium">{currentLanguage}</span>
+                  <span className="text-blue-900 font-medium">{currentLanguage}</span>
                   <ChevronDownIcon className="w-4 h-4 text-gray-500 ml-auto" />
                 </button>
 
@@ -283,7 +320,7 @@ const AuthNavbar = () => {
                           changeLanguage(lang.code);
                           setIsLanguageDropdownOpen(false);
                         }}
-                        className="flex items-center space-x-3 w-full text-left px-4 py-2 hover:bg-gray-100 text-gray-700"
+                        className="flex items-center space-x-3 w-full text-left px-4 py-2 hover:bg-gray-100 text-blue-900"
                       >
                         {renderFlag(lang.code)}
                         <span>{lang.name}</span>

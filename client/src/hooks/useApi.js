@@ -8,10 +8,13 @@ const useApi = () => {
 
   // Token management
   const getToken = useCallback(() => {
-    return localStorage.getItem('token') || localStorage.getItem('authToken');
+    const token = localStorage.getItem('token') || localStorage.getItem('authToken');
+    console.log('🔍 Getting token from localStorage:', token ? `Found (${token.length} chars)` : 'Not found');
+    return token;
   }, []);
 
   const setToken = useCallback((token) => {
+    console.log('💾 Storing token in localStorage, length:', token.length);
     localStorage.setItem('token', token);
     localStorage.removeItem('authToken');
   }, []);
@@ -28,12 +31,14 @@ const useApi = () => {
   }, []);
 
   const setUserData = useCallback((userData) => {
+    console.log('💾 Storing user data in localStorage:', userData.email);
     localStorage.setItem('user', JSON.stringify(userData));
     localStorage.removeItem('userData');
   }, []);
 
   // Clear all auth data
   const clearAuthData = useCallback(() => {
+    console.log('🧹 Clearing all auth data from localStorage');
     localStorage.removeItem('token');
     localStorage.removeItem('authToken');
     localStorage.removeItem('user');
@@ -135,15 +140,34 @@ const useApi = () => {
 
     // Login
     login: async (credentials) => {
+      console.log('🚀 Starting login process...');
       const data = await makeApiCall('/auth/login', {
         method: 'POST',
         body: JSON.stringify(credentials),
         skipAuth: true,
       });
 
-      if (data.success && data.token) {
-        setToken(data.token);
-        setUserData(data.user);
+      console.log('📨 Login response received:', data);
+
+      if (data.success) {
+        // Handle both response formats (nested and flat)
+        const token = data.data?.token || data.token;
+        const user = data.data?.user || data.user;
+        
+        console.log('🔍 Extracted token:', token ? `Found (${token.length} chars)` : 'Not found');
+        console.log('🔍 Extracted user:', user ? `Found (${user.email})` : 'Not found');
+        
+        if (token && user) {
+          setToken(token);
+          setUserData(user);
+          console.log('✅ Token and user data stored successfully');
+        } else {
+          console.error('❌ Missing token or user data in response');
+          console.error('Token:', !!token);
+          console.error('User:', !!user);
+        }
+      } else {
+        console.error('❌ Login response was not successful:', data);
       }
 
       return data;
@@ -152,12 +176,26 @@ const useApi = () => {
     // Logout
     logout: async () => {
       try {
-        // Call server logout to clear session
-        await makeApiCall('/auth/logout', {
+        // Try safe logout first (avoids Passport issues)
+        console.log('🚪 Attempting safe logout...');
+        await makeApiCall('/auth/logout-safe', {
           method: 'POST',
+          credentials: 'include',
         });
+        console.log('✅ Safe logout successful');
       } catch (error) {
-        console.error('Server logout error:', error);
+        console.error('❌ Safe logout failed, trying regular logout:', error);
+        
+        // Fallback to regular logout
+        try {
+          await makeApiCall('/auth/logout', {
+            method: 'POST',
+            credentials: 'include',
+          });
+          console.log('✅ Regular logout successful');
+        } catch (fallbackError) {
+          console.error('❌ Both logout methods failed:', fallbackError);
+        }
       } finally {
         // Always clear local auth data regardless of server response
         clearAuthData();
@@ -212,6 +250,67 @@ const useApi = () => {
         console.error('Auth status check error:', error);
         clearAuthData();
         return { success: false };
+      }
+    },
+
+    // Check authentication status (JWT-only version)
+    checkAuthStatusJWT: async () => {
+      try {
+        const token = getToken();
+        
+        if (!token) {
+          console.log('❌ No JWT token found');
+          clearAuthData();
+          return { success: false };
+        }
+        
+        const response = await fetch(`${API_BASE_URL}/auth/me-jwt`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success && data.user) {
+            // Update user data
+            setUserData(data.user);
+            
+            return {
+              success: true,
+              user: data.user,
+              authMethod: 'jwt'
+            };
+          }
+        }
+        
+        // If we reach here, authentication failed
+        console.log('❌ JWT authentication failed');
+        clearAuthData();
+        return { success: false };
+        
+      } catch (error) {
+        console.error('JWT auth status check error:', error);
+        clearAuthData();
+        return { success: false };
+      }
+    },
+
+    // Simplified logout for JWT-only
+    logoutJWT: async () => {
+      try {
+        // Call server endpoint (optional, just for logging)
+        await makeApiCall('/auth/logout-jwt', {
+          method: 'POST',
+        });
+      } catch (error) {
+        console.error('Server logout error:', error);
+      } finally {
+        // Always clear local auth data
+        clearAuthData();
       }
     },
 

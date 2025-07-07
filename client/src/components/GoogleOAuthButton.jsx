@@ -46,7 +46,7 @@ const GoogleOAuthButton = ({ onSuccess, onError, text = "Continue with Google" }
     const handleCredentialResponse = async (response) => {
       try {
         // Send the credential to our backend
-        const backendResponse = await fetch(`${import.meta.env.VITE_API_URL}/auth/google/verify`, {
+        const backendResponse = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/auth/google/verify`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -59,9 +59,9 @@ const GoogleOAuthButton = ({ onSuccess, onError, text = "Continue with Google" }
         const data = await backendResponse.json();
 
         if (data.success) {
-          // Store token and user data
-          localStorage.setItem('authToken', data.token);
-          localStorage.setItem('userData', JSON.stringify(data.user));
+          // Store token and user data (using consistent naming)
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('user', JSON.stringify(data.user));
           
           if (onSuccess) {
             onSuccess(data);

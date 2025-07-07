@@ -18,9 +18,9 @@ const OAuthCallback = () => {
 
     if (token && user) {
       try {
-        // Store token and user data
-        localStorage.setItem('authToken', token);
-        localStorage.setItem('userData', decodeURIComponent(user));
+        // Store token and user data (using consistent naming)
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', decodeURIComponent(user));
         
         // Redirect to dashboard (consistent with regular login)
         navigate('/dashboard');

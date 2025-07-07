@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { ChevronDownIcon, Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline"
 import { useLanguage } from "../context/LanguageContext"
@@ -8,11 +8,23 @@ const Navbar = () => {
   const { currentLanguage, changeLanguage, t } = useLanguage()
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
 
   const languages = [
     { code: "EN", name: t("language.english") },
     { code: "ES", name: t("language.spanish") }
   ]
+
+  // Handle scroll to make navbar sticky
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      setIsScrolled(scrollTop > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleSignInClick = () => {
     navigate("/login")
@@ -24,24 +36,23 @@ const Navbar = () => {
 
   const renderFlag = (langCode) => {
     if (langCode === "EN") {
-      // US Flag
       return (
-        <div className="w-6 h-4 relative overflow-hidden rounded-sm">
-          <div className="absolute inset-0 bg-red-600"></div>
-          <div className="absolute top-0 left-0 w-full h-1 bg-red-600"></div>
-          <div className="absolute top-1 left-0 w-full h-0.5 bg-white"></div>
-          <div className="absolute top-2 left-0 w-full h-0.5 bg-red-600"></div>
-          <div className="absolute top-3 left-0 w-full h-0.5 bg-white"></div>
-          <div className="absolute top-0 left-0 w-2.5 h-2 bg-blue-800"></div>
+        <div className="w-6 h-6 relative overflow-hidden rounded-full">
+          <img 
+            src="/english.png" 
+            alt="English Flag" 
+            className="w-full h-full object-cover"
+          />
         </div>
       )
     } else if (langCode === "ES") {
-      // Spanish Flag
       return (
-        <div className="w-6 h-4 relative overflow-hidden rounded-sm">
-          <div className="absolute top-0 left-0 w-full h-1 bg-red-600"></div>
-          <div className="absolute top-1 left-0 w-full h-2 bg-yellow-400"></div>
-          <div className="absolute bottom-0 left-0 w-full h-1 bg-red-600"></div>
+        <div className="w-6 h-6 relative overflow-hidden rounded-full">
+          <img 
+            src="/maxican.jpg" 
+            alt="Mexican Flag" 
+            className="w-full h-full object-cover"
+          />
         </div>
       )
     }
@@ -49,7 +60,9 @@ const Navbar = () => {
   }
 
   return (
-    <header className="w-full px-4 sm:px-6 lg:px-8 py-6 relative">
+    <header className={`w-full px-4 sm:px-6 lg:px-8 py-6 shadow-sm transition-all duration-300 ${
+      isScrolled ? 'sticky top-0 z-50 bg-white' : 'relative bg-gray-200'
+    }`}>
       <div className="max-w-screen-2xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <div className="flex  object-contain items-center focus-within:sr-only">

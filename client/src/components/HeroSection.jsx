@@ -18,8 +18,7 @@ const HeroSection = () => {
 
   return (
     <main 
-      className="w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-16 relative overflow-hidden"
-      style={{ backgroundColor: "#F7F9FD" }}
+      className="w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-16 relative overflow-hidden bg-gray-200"
     >
       {/* Gradient Images - Enhanced and more prominent */}
       <div className="absolute inset-0 w-full h-full pointer-events-none">
@@ -31,13 +30,13 @@ const HeroSection = () => {
         <img 
           src="/Aboutgradient2.png" 
           alt="" 
-          className="absolute -bottom-10 -left-10 w-[32rem] h-[32rem] lg:w-[40rem] lg:h-[40rem] xl:w-[48rem] xl:h-[48rem] object-contain transform rotate-270 opacity-80"
+          className="absolute top-0 left-0 w-full h-full lg:w-1/2 object-cover opacity-60"
         />
       </div>
       <div className="max-w-screen-2xl mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-16 xl:gap-20 items-center relative">
           {/* Left Side - Content */}
-          <div className="space-y-6 sm:space-y-8 relative order-2 lg:order-1">
+          <div className="space-y-6 sm:space-y-8 relative order-2 lg:order-1 bg-blue-50/40 rounded-2xl p-6 sm:p-8 lg:p-10">
             {/* Main Hero Text */}
             <h1
               className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-[65px] font-extrabold leading-[130%] tracking-[0%] relative z-10 pt-4 sm:pt-6 lg:pt-8 px-2 sm:px-4 lg:px-6"
@@ -95,19 +94,19 @@ const HeroSection = () => {
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between lg:space-x-8 xl:space-x-12 space-y-4 sm:space-y-6 lg:space-y-0">
                 {/* Subtitle */}
                 <div className="flex-1 lg:flex-none lg:max-w-lg">
-                  <p className="text-base sm:text-lg lg:text-xl font-medium leading-relaxed lg:whitespace-nowrap" style={{ color: "#1B3276" }}>
+                  <p className="text-base sm:text-lg lg:font-md text-blue-900 leading-relaxed lg:whitespace-nowrap ">
                     {t("hero.subtitle")}
                   </p>
                 </div>
 
                 {/* Country Selector and CTA Button Container */}
-                <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-3 sm:space-y-0 sm:space-x-3 lg:space-x-4">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-3 sm:space-y-0 sm:space-x-3 lg:space-x-4 justify-start">
                   {/* Country Selector */}
                   <div className="relative w-full sm:w-auto">
-                    <label className="block text-xs sm:text-sm font-medium mb-1 sm:mb-2" style={{ color: "#31474D" }}>{t("hero.country")}</label>
+                    <label className="block text-xs sm:text-sm font-sm mb-1 sm:mb-2" style={{ color: "#31474D" }}>{t("hero.country")}</label>
                     <button
                       onClick={() => setIsCountryDropdownOpen(!isCountryDropdownOpen)}
-                      className="flex items-center justify-between w-full sm:w-28 lg:w-32 px-2 sm:px-3 py-2 sm:py-2.5 bg-white hover:bg-gray-50 transition-colors rounded-md lg:rounded-lg shadow-sm"
+                      className="flex items-center justify-between w-full sm:w-28 lg:w-32 px-2 sm:px-3 py-2 sm:py-2.5 transition-colors"
                     >
                       <div className="flex items-center space-x-1 sm:space-x-2">
                         <div className="w-4 h-3 sm:w-5 sm:h-4 relative overflow-hidden rounded-sm">

@@ -47,7 +47,7 @@ class AuthService {
         phoneNumber: phoneNumber ? phoneNumber.trim() : undefined,
         signUpAsAgency,
         verificationCode,
-        expiresAt: Date.now() + (30 * 60 * 1000), // 30 minutes from now
+        expiresAt: Date.now() + (30 * 60 * 1000), 
         attempts: 0 // Reset attempts counter
       });
 
@@ -70,7 +70,7 @@ class AuthService {
       phoneNumber: phoneNumber ? phoneNumber.trim() : undefined,
       role: userRole,
       verificationCode,
-      expiresAt: Date.now() + (30 * 60 * 1000), // 30 minutes from now
+      expiresAt: Date.now() + (30 * 60 * 1000),
       attempts: 0,
       createdAt: Date.now()
     });
@@ -156,7 +156,7 @@ class AuthService {
         password: pendingData.password,
         phoneNumber: pendingData.phoneNumber,
         role: pendingData.role,
-        isEmailVerified: true // Email is verified since they provided correct code
+        isEmailVerified: true // Email is verified since user provided correct code
       });
 
       // Remove from pending registrations

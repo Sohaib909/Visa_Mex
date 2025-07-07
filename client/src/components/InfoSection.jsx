@@ -36,8 +36,8 @@ const InfoSection = () => {
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
         {/* Header */}
         <div className="text-center mb-8 sm:mb-12">
-          <div className="inline-flex items-center justify-center px-3 py-1.5 rounded-full mb-4" style={{ backgroundColor: "rgba(85, 118, 217, 0.2)" }}>
-            <p className="text-[#3B5998] text-xs font-medium tracking-wide">All Faculties</p>
+          <div className="inline-flex items-center justify-center px-3 py-1.5 rounded-md mb-4" style={{ backgroundColor: "rgba(85, 118, 217, 0.2)" }}>
+            <p className="text-blue-600 text-xl font-sm tracking-wide">All Faculties</p>
           </div>
           <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#1B3276] mb-4">{t("info.title")}</h2>
         </div>
@@ -65,12 +65,12 @@ const InfoSection = () => {
               </div>
 
               {/* Title */}
-              <h3 className="text-xs sm:text-sm font-semibold text-[#1B3276] mb-1 sm:mb-2 leading-tight">
+              <h3 className="text-xs sm:text-xl font-bold text-[#1B3276] mb-1 sm:mb-2 leading-tight">
                 {feature.title}
               </h3>
 
               {/* Description */}
-              <p className="text-gray-600 text-xs leading-relaxed">
+              <p className="text-black text-lg font-md leading-relaxed">
                 {feature.description}
               </p>
             </div>

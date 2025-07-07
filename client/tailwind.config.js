@@ -12,7 +12,9 @@ const config = {
           light: '#FFFFFFC4',     
         },
         heading: '#1B3276',        
-        secondary: '#FDECE1',      
+        secondary: '#FDECE1',
+        primaryStart: '#5576D9',
+        primaryEnd: '#294DB6',      
       },
       fontFamily: {
         sans: ['Montserrat', 'ui-sans-serif', 'system-ui'],

@@ -15,15 +15,24 @@ console.log('FACEBOOK_APP_SECRET:', process.env.FACEBOOK_APP_SECRET ? 'Found' : 
 
 // Serialize user for session
 passport.serializeUser((user, done) => {
+  console.log('📝 Serializing user for session:', user._id);
   done(null, user._id);
 });
 
 // Deserialize user from session
 passport.deserializeUser(async (id, done) => {
   try {
+    console.log('📖 Deserializing user from session:', id);
     const user = await User.findById(id);
-    done(null, user);
+    if (user) {
+      console.log('✅ User found during deserialization');
+      done(null, user);
+    } else {
+      console.log('❌ User not found during deserialization');
+      done(null, false);
+    }
   } catch (error) {
+    console.error('❌ Deserialization error:', error);
     done(error, null);
   }
 });

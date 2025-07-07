@@ -58,7 +58,7 @@ const TestimonialsSection = () => {
     return Array.from({ length: 5 }, (_, index) => (
       <svg
         key={index}
-        className={`w-4 h-4 ${index < rating ? 'text-yellow-400' : 'text-gray-300'}`}
+        className={`w-3 h-3 ${index < rating ? 'text-yellow-500' : 'text-gray-300'}`}
         fill="currentColor"
         viewBox="0 0 20 20"
       >
@@ -87,7 +87,7 @@ const TestimonialsSection = () => {
         <div className="text-center mb-8 sm:mb-12">
           {/* Pill-shaped label */}
           <div className="inline-block mb-3 px-4 py-1 rounded-lg bg-blue-100">
-            <span className="text-blue-700 text-sm font-medium">Testimonials</span>
+            <span className="text-blue-800 text-lg font-sm">Testimonials</span>
           </div>
           <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#1B3276]">{t("testimonials.title")}</h2>
         </div>
@@ -125,10 +125,10 @@ const TestimonialsSection = () => {
 
                 {/* Name and Rating */}
                 <div className="flex-1">
-                  <h4 className="font-semibold text-[#1B3276] text-sm">
+                  <h4 className="font-semibold text-[#1B3276] text-lg">
                     {testimonial.name}
                   </h4>
-                  <div className="flex items-center space-x-1">
+                  <div className="flex items-start ">
                     {renderStars(testimonial.rating)}
                   </div>
                 </div>

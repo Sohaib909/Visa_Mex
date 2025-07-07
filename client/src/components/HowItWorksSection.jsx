@@ -76,8 +76,8 @@ const HowItWorksSection = () => {
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 relative z-20">
         {/* Header */}
         <div className="text-left mb-8 sm:mb-12">
-          <div className="inline-flex items-center justify-center px-3 py-1.5 rounded-full mb-4" style={{ backgroundColor: "rgba(85, 118, 217, 0.2)" }}>
-            <p className="text-xs font-medium tracking-wide" style={{ color: "#294DB6" }}>All Faculties</p>
+          <div className="inline-flex items-center justify-center px-3 py-1.5 rounded-md mb-4" style={{ backgroundColor: "rgba(85, 118, 217, 0.2)" }}>
+            <p className="text-lg font-sm tracking-wide" style={{ color: "#294DB6" }}>All Faculties</p>
           </div>
           <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#1B3276]">How It Works</h2>
         </div>
@@ -98,10 +98,10 @@ const HowItWorksSection = () => {
                 
                 {/* Step Content */}
                 <div>
-                  <h3 className="text-base sm:text-lg font-semibold text-[#1B3276] mb-1 sm:mb-2">
+                  <h3 className="text-base sm:text-lg font-bold text-[#1B3276] mb-1 sm:mb-2">
                     {step.title}
                   </h3>
-                  <p className="text-gray-600 text-sm leading-relaxed">
+                  <p className="text-gray-600 text-lg leading-relaxed">
                     {step.description}
                   </p>
                 </div>
