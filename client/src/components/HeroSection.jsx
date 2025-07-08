@@ -18,7 +18,10 @@ const HeroSection = () => {
 
   return (
     <main 
-      className="w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-16 relative overflow-hidden bg-gray-200"
+      className="w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-16 relative overflow-hidden"
+      style={{
+        background: "linear-gradient(to bottom, #e5e7eb 0%, #e5e7eb 60%, rgba(229, 231, 235, 0.8) 80%, rgba(229, 231, 235, 0.4) 90%, transparent 100%)"
+      }}
     >
       {/* Gradient Images - Enhanced and more prominent */}
       <div className="absolute inset-0 w-full h-full pointer-events-none">

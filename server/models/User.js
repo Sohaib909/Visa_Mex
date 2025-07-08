@@ -40,6 +40,32 @@ const userSchema = new mongoose.Schema({
     default: 'user'
   },
   
+  // Admin permissions for content management
+  permissions: {
+    canManageContent: {
+      type: Boolean,
+      default: function() { return this.role === 'admin'; }
+    },
+    canManageUsers: {
+      type: Boolean,
+      default: function() { return this.role === 'admin'; }
+    },
+    canUploadFiles: {
+      type: Boolean,
+      default: function() { return this.role === 'admin' || this.role === 'agency'; }
+    },
+    canViewAnalytics: {
+      type: Boolean,
+      default: function() { return this.role === 'admin'; }
+    }
+  },
+  
+  // Last admin activity
+  lastAdminActivity: {
+    type: Date,
+    default: null
+  },
+  
   // OAuth Fields
   googleId: {
     type: String,
@@ -117,12 +143,32 @@ userSchema.pre('save', async function(next) {
   }
 });
 
-
+// Authentication and user methods
 userSchema.methods.comparePassword = async function(candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };
 
+// Admin permission methods
+userSchema.methods.isAdmin = function() {
+  return this.role === 'admin';
+};
 
+userSchema.methods.canManageContent = function() {
+  return this.role === 'admin' && this.permissions.canManageContent;
+};
+
+userSchema.methods.canUploadFiles = function() {
+  return (this.role === 'admin' || this.role === 'agency') && this.permissions.canUploadFiles;
+};
+
+userSchema.methods.updateAdminActivity = function() {
+  if (this.role === 'admin') {
+    this.lastAdminActivity = new Date();
+    return this.save();
+  }
+};
+
+// User data formatting methods
 userSchema.methods.toAuthJSON = function() {
   return {
     _id: this._id,
@@ -131,7 +177,9 @@ userSchema.methods.toAuthJSON = function() {
     fullName: this.fullName,
     email: this.email,
     role: this.role,
-    isAgency: this.isAgency, 
+    isAgency: this.isAgency,
+    isAdmin: this.isAdmin(),
+    permissions: this.permissions,
     isActive: this.isActive,
     isEmailVerified: this.isEmailVerified,
     createdAt: this.createdAt,

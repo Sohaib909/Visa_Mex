@@ -1,24 +1,28 @@
+import { useLanguage } from '../context/LanguageContext';
+
 const HowItWorksSection = () => {
+  const { t } = useLanguage();
+  
   const steps = [
     {
       number: "01",
-      title: "Create an Account:",
-      description: "Register easily with your email."
+      title: t("howItWorks.stepAlt1Title"),
+      description: t("howItWorks.stepAlt1Desc")
     },
     {
       number: "02", 
-      title: "Upload Your Documents:",
-      description: "Submit required files securely."
+      title: t("howItWorks.stepAlt2Title"),
+      description: t("howItWorks.stepAlt2Desc")
     },
     {
       number: "03",
-      title: "Track Your Progress:",
-      description: "Monitor every step of your visa application."
+      title: t("howItWorks.stepAlt3Title"),
+      description: t("howItWorks.stepAlt3Desc")
     },
     {
       number: "04",
-      title: "Get Your Visa:",
-      description: "Receive updates and download your approved visa."
+      title: t("howItWorks.stepAlt4Title"),
+      description: t("howItWorks.stepAlt4Desc")
     }
   ]
 
@@ -77,9 +81,9 @@ const HowItWorksSection = () => {
         {/* Header */}
         <div className="text-left mb-8 sm:mb-12">
           <div className="inline-flex items-center justify-center px-3 py-1.5 rounded-md mb-4" style={{ backgroundColor: "rgba(85, 118, 217, 0.2)" }}>
-            <p className="text-lg font-sm tracking-wide" style={{ color: "#294DB6" }}>All Faculties</p>
+            <p className="text-lg font-sm tracking-wide" style={{ color: "#294DB6" }}>{t("labels.allFaculties")}</p>
           </div>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#1B3276]">How It Works</h2>
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#1B3276]">{t("howItWorks.title")}</h2>
         </div>
 
         {/* Content Grid */}

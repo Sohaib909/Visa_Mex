@@ -1,58 +1,64 @@
 import { useLanguage } from '../context/LanguageContext';
+import { useTestimonials } from '../hooks/useContent';
 
 const TestimonialsSection = () => {
   const { t } = useLanguage();
+  const { testimonials, loading, error } = useTestimonials();
   
-  const testimonials = [
+  // Fallback testimonials from translations if no dynamic content
+  const fallbackTestimonials = [
     {
       name: "Ashley Cooper",
       image: "/Pic.png",
       rating: 5,
-      testimonial: "Teamollo delivered the visa processing service within the timeline as they requested. In the end, the client found a 50% increase in efficiency with their visa application process since its launch. They also had an impressive ability to use technologies that the company hasn't used, which have also proved to be easy to use and reliable."
+      text: t("testimonials.clientTestimonial")
     },
     {
       name: "Noah Jack", 
       image: "/Pic.png",
       rating: 5,
-      testimonial: "Teamollo delivered the visa service with excellent timeline as they requested. In the end, the client found a 50% increase in processing speed with their visa applications since its launch."
+      text: t("testimonials.clientTestimonial2")
     },
     {
       name: "Ashley Cooper",
       image: "/Pic.png", 
       rating: 5,
-      testimonial: "Teamollo delivered the visa processing service within the timeline as they requested. In the end, the client found a 50% increase in efficiency with visa applications since its launch. They also had an impressive ability to use technologies that the company hasn't used, which have also proved to be easy to use and reliable."
+      text: t("testimonials.clientTestimonial")
     },
     {
       name: "Ashley Cooper",
       image: "/Pic.png",
       rating: 5, 
-      testimonial: "Teamollo delivered the visa service within the timeline as they requested. In the end, the client found a 50% increase in application processing speed with their visa services since its launch. They also had an impressive ability to use technologies that the company hasn't used, which have also proved to be easy to use and reliable."
+      text: t("testimonials.clientTestimonial3")
     },
     {
       name: "Ashley Cooper",
       image: "/Pic.png",
       rating: 5,
-      testimonial: "Teamollo delivered the visa processing service within the timeline as they requested. In the end, the client found a 50% increase in efficiency with visa applications since its launch. They also had an impressive ability to use technologies that the company hasn't used, which have also proved to be easy to use and reliable. Teamollo delivered the visa service within the timeline as they requested. In the end, the client found a 50% increase in processing speed with their applications since its launch."
+      text: t("testimonials.clientTestimonial4")
     },
     {
       name: "Gabrile Jackson",
       image: "/Pic.png",
       rating: 5,
-      testimonial: "Teamollo delivered the visa service within the timeline as they requested. In the end, the client found a 50% increase in processing efficiency with visa applications since its launch. They also had an impressive ability to use technologies that the company hasn't used, which have also proved to be easy to use and reliable."
+      text: t("testimonials.clientTestimonial5")
     },
     {
       name: "Ashley Cooper", 
       image: "/Pic.png",
       rating: 5,
-      testimonial: "Teamollo delivered the visa processing service within the timeline as they requested. In the end, the client found a 50% increase in efficiency with their applications since its launch."
+      text: t("testimonials.clientTestimonial6")
     },
     {
       name: "William Leo",
       image: "/Pic.png",
       rating: 5,
-      testimonial: "Teamollo delivered the visa service within the timeline as they requested. In the end, the client found a 50% increase in processing speed with visa applications since its launch. They also had an impressive ability to use technologies that the company hasn't used, which have also proved to be easy to use and reliable."
+      text: t("testimonials.clientTestimonial7")
     }
-  ]
+  ];
+
+  // Use dynamic content if available, otherwise fallback to translations
+  const displayTestimonials = testimonials.length > 0 ? testimonials : fallbackTestimonials;
 
   const renderStars = (rating) => {
     return Array.from({ length: 5 }, (_, index) => (
@@ -65,6 +71,40 @@ const TestimonialsSection = () => {
         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
       </svg>
     ))
+  }
+
+  if (loading) {
+    return (
+      <section className="w-full py-12 sm:py-16 bg-gray-50 relative overflow-hidden">
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
+          <div className="text-center">
+            <div className="animate-pulse">
+              <div className="h-8 bg-gray-300 rounded mb-4 mx-auto w-48"></div>
+              <div className="h-12 bg-gray-300 rounded mb-8 mx-auto w-96"></div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 xl:gap-8">
+              {[...Array(6)].map((_, index) => (
+                <div key={index} className="bg-white p-4 sm:p-6 rounded-lg shadow-md animate-pulse">
+                  <div className="h-16 bg-gray-300 rounded mb-4"></div>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
+                    <div className="flex-1">
+                      <div className="h-4 bg-gray-300 rounded mb-2"></div>
+                      <div className="h-3 bg-gray-300 rounded w-20"></div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    console.warn('Testimonials loading error:', error);
+    // Continue with fallback content
   }
 
   return (
@@ -87,18 +127,18 @@ const TestimonialsSection = () => {
         <div className="text-center mb-8 sm:mb-12">
           {/* Pill-shaped label */}
           <div className="inline-block mb-3 px-4 py-1 rounded-lg bg-blue-100">
-            <span className="text-blue-800 text-lg font-sm">Testimonials</span>
+            <span className="text-blue-800 text-lg font-sm">{t("labels.testimonials")}</span>
           </div>
           <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#1B3276]">{t("testimonials.title")}</h2>
         </div>
 
         {/* Testimonials Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 xl:gap-8">
-          {testimonials.map((testimonial, index) => (
-            <div key={index} className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
+          {displayTestimonials.map((testimonial, index) => (
+            <div key={testimonial.id || index} className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
               {/* Testimonial Text */}
               <p className="text-gray-600 text-sm leading-relaxed mb-3 sm:mb-4">
-                {testimonial.testimonial}
+                {testimonial.text}
               </p>
 
               {/* Author Info */}

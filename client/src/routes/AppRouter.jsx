@@ -16,6 +16,7 @@ import ForgotPasswordVerification from '../pages/ForgotPasswordVerification';
 import NewPassword from '../pages/NewPassword';
 import PopUpPasswordChange from '../pages/PopUpPasswordChange';
 import OAuthCallback from '../pages/OAuthCallback';
+import AdminDashboard from '../components/admin/AdminDashboard';
 import NotFound from '../components/NotFound';
 
 const AppRouter = () => {
@@ -34,6 +35,14 @@ const AppRouter = () => {
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/admin-dashboard" 
+            element={
+              <ProtectedRoute>
+                <AdminDashboard />
               </ProtectedRoute>
             } 
           />

@@ -3,9 +3,11 @@
 import { ChevronDown } from "lucide-react"
 import { useState } from "react"
 import { useLanguage } from '../context/LanguageContext';
+import { useFAQs } from '../hooks/useContent';
 
 export default function FAQSection() {
   const { t } = useLanguage();
+  const { faqs, loading, error } = useFAQs();
   const [openItems, setOpenItems] = useState({})
 
   const toggleItem = (index) => {
@@ -15,38 +17,73 @@ export default function FAQSection() {
     }))
   }
 
-  const faqItems = [
+  // Fallback FAQ items from translations if no dynamic content
+  const fallbackFaqItems = [
     {
-      question: "What documents are required for a visa application?",
-      answer:
-        "You'll typically need a valid passport, completed application form, passport-sized photos, proof of financial support, travel itinerary, and any specific documents required for your visa type.",
+      question: t("faq.question1"),
+      answer: t("faq.answer1")
     },
     {
-      question: "How long does the visa process take?",
-      answer:
-        "Processing times vary by country and visa type, typically ranging from 5-30 business days. We provide real-time tracking so you're always informed about your application status.",
+      question: t("faq.question2"),
+      answer: t("faq.answer2")
     },
     {
-      question: "Is my information secure?",
-      answer:
-        "Yes, we use bank-level encryption and secure document management systems to protect your personal information and documents throughout the entire process.",
+      question: t("faq.question3"),
+      answer: t("faq.answer3")
     },
     {
-      question: "What documents are required for a visa application?",
-      answer:
-        "You'll typically need a valid passport, completed application form, passport-sized photos, proof of financial support, travel itinerary, and any specific documents required for your visa type.",
-    },
-    {
-      question: "Is my information secure?",
-      answer:
-        "Yes, we use bank-level encryption and secure document management systems to protect your personal information and documents throughout the entire process.",
-    },
-    {
-      question: "How long does the visa process take?",
-      answer:
-        "Processing times vary by country and visa type, typically ranging from 5-30 business days. We provide real-time tracking so you're always informed about your application status.",
-    },
-  ]
+      question: t("faq.question4"),
+      answer: t("faq.answer4")
+    }
+  ];
+
+  // Use dynamic content if available, otherwise fallback to translations
+  const displayFaqItems = faqs.length > 0 ? faqs : fallbackFaqItems;
+
+  if (loading) {
+    return (
+      <div className="relative bg-gray-100 py-16 px-4 overflow-hidden">
+        {/* Gradient Images */}
+        <div className="absolute inset-0 w-full h-full pointer-events-none">
+          <img 
+            src="/Aboutgradient2.png" 
+            alt="" 
+            className="absolute -top-32 -right-32 w-[32rem] h-[32rem] object-contain transform rotate-180"
+          />
+          <img 
+            src="/Aboutgradient1.png" 
+            alt="" 
+            className="absolute -bottom-32 -left-32 w-[32rem] h-[32rem] object-contain transform rotate-180"
+          />
+        </div>
+        <div className="max-w-4xl mx-auto relative z-10">
+          {/* FAQ Header */}
+          <div className="text-center mb-12">
+            <div className="animate-pulse">
+              <div className="h-4 bg-gray-300 rounded mb-2 mx-auto w-16"></div>
+              <div className="h-8 bg-gray-300 rounded mx-auto w-64"></div>
+            </div>
+          </div>
+
+          {/* Loading FAQ Items */}
+          <div className="space-y-4 mb-28">
+            {[...Array(4)].map((_, index) => (
+              <div key={index} className="bg-white rounded-lg shadow-sm animate-pulse">
+                <div className="px-6 py-5">
+                  <div className="h-6 bg-gray-300 rounded w-3/4"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    console.warn('FAQ loading error:', error);
+    // Continue with fallback content
+  }
 
   return (
     <div className="relative bg-gray-100 py-16 px-4 overflow-hidden">
@@ -72,8 +109,8 @@ export default function FAQSection() {
 
         {/* FAQ Items */}
         <div className="space-y-4 mb-28">
-          {faqItems.map((item, index) => (
-            <div key={index} className="bg-white rounded-lg shadow-sm">
+          {displayFaqItems.map((item, index) => (
+            <div key={item.id || index} className="bg-white rounded-lg shadow-sm">
               <button
                 onClick={() => toggleItem(index)}
                 className="w-full px-6 py-5 text-left flex justify-between items-center hover:bg-gray-50 rounded-lg transition-colors"

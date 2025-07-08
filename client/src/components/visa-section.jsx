@@ -1,37 +1,35 @@
 import { Eye, MessageCircle, Shield, MapPin, DollarSign } from 'lucide-react';
 import FadeEffect from './fade-effect';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function VisaSections() {
+  const { t } = useLanguage();
+  
   const features = [
     {
       icon: Eye,
-      title: 'Simplified Visa Applications',
-      description:
-        'Automated form filling using your passport details to save time and reduce errors.',
+      title: t('visaSection.feature1Title'),
+      description: t('visaSection.feature1Desc'),
     },
     {
       icon: MessageCircle,
-      title: 'Live Support',
-      description:
-        '24/7 chat and video call support to guide you at every step.',
+      title: t('visaSection.feature2Title'),
+      description: t('visaSection.feature2Desc'),
     },
     {
       icon: Shield,
-      title: 'Secure Document Management',
-      description:
-        'Upload, store, and manage your documents with complete security.',
+      title: t('visaSection.feature3Title'),
+      description: t('visaSection.feature3Desc'),
     },
     {
       icon: MapPin,
-      title: 'Visa Tracking',
-      description:
-        'Stay informed about your application status and progress in real-time.',
+      title: t('visaSection.feature4Title'),
+      description: t('visaSection.feature4Desc'),
     },
     {
       icon: DollarSign,
-      title: 'Flexible Pricing Plans',
-      description:
-        'Tailored solutions for individual travelers and travel agencies.',
+      title: t('visaSection.feature5Title'),
+      description: t('visaSection.feature5Desc'),
     },
   ];
 
@@ -43,26 +41,20 @@ export default function VisaSections() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <h2 className="text-3xl md:text-[36px] font-bold text-[#101E46]">
-                Our Mission
+                {t('visaSection.ourMission')}
               </h2>
 
               <div className="space-y-4 leading-relaxed text-[22px] text-[#101E46]">
                 <p>
-                  We aim to make international travel accessible by simplifying
-                  the complex visa process. With cutting-edge technology, live
-                  support, and a user-friendly platform, we empower our clients
-                  to focus on their travel plans while we handle the paperwork.
+                  {t('visaSection.missionDesc1')}
                 </p>
 
                 <p>
-                  Our commitment to transparency and efficiency ensures that
-                  you're always informed about the progress of your application.
-                  By leveraging secure document management and automated data
-                  extraction, we minimize errors and save you valuable time.
+                  {t('visaSection.missionDesc2')}
                 </p>
 
                 <p className="font-medium text-[#101E46]">
-                  Traveling has never been this easy!
+                  {t('visaSection.missionDesc3')}
                 </p>
               </div>
             </div>
@@ -99,11 +91,11 @@ export default function VisaSections() {
           <div className="text-center mb-12">
             <div className="bg-blue-100 px-4 py-2 rounded-lg mb-4 inline-block">
               <span className="text-[#294DB6] font-medium text-[18px]">
-                What We Offer
+                {t('visaSection.whatWeOffer')}
               </span>
             </div>
             <h2 className="text-3xl md:text-[36px] font-bold text-[#101E46]">
-              What We Offer
+              {t('visaSection.whatWeOffer')}
             </h2>
           </div>
 
@@ -147,26 +139,20 @@ export default function VisaSections() {
 
             <div className="space-y-6">
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-                Our Mission
+                {t('visaSection.ourMission')}
               </h2>
 
               <div className="space-y-4 text-gray-600 leading-relaxed text-[22px] text-[#101E46]">
                 <p>
-                  We aim to make international travel accessible by simplifying
-                  the complex visa process. With cutting-edge technology, live
-                  support, and a user-friendly platform, we empower our clients
-                  to focus on their travel plans while we handle the paperwork.
+                  {t('visaSection.missionDesc1')}
                 </p>
 
                 <p>
-                  Our commitment to transparency and efficiency ensures that
-                  you're always informed about the progress of your application.
-                  By leveraging secure document management and automated data
-                  extraction, we minimize errors and save you valuable time.
+                  {t('visaSection.missionDesc2')}
                 </p>
 
                 <p className="font-medium text-gray-900">
-                  Traveling has never been this easy!
+                  {t('visaSection.missionDesc3')}
                 </p>
               </div>
             </div>
