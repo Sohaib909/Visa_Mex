@@ -20,6 +20,12 @@ export const translations = {
       spanish: "Español"
     },
 
+    // Common Labels
+    labels: {
+      allFaculties: "All Faculties",
+      testimonials: "Testimonials"
+    },
+
     // Hero Section
     hero: {
       title: "Fast, Simple, And Secure Visa Processing With Live Support.",
@@ -46,7 +52,37 @@ export const translations = {
       expertSupportTitle: "Expert support every step of the way",
       expertSupportDesc: "Our experienced team provides personalized guidance throughout your application journey. Get answers to your questions and ensure your application meets all requirements.",
       secureProcessTitle: "Secure and reliable processing",
-      secureProcessDesc: "Your personal information and documents are protected with bank-level security. We ensure your application is processed safely and efficiently."
+      secureProcessDesc: "Your personal information and documents are protected with bank-level security. We ensure your application is processed safely and efficiently.",
+      // New features translations
+      feature1Title: "Live Support 24/7",
+      feature1Desc: "Chat or video call with our experts anytime.",
+      feature2Title: "Simplified Process",
+      feature2Desc: "Automated form filling from your passport.",
+      feature3Title: "Secure Document",
+      feature3Desc: "Upload and store your documents securely.",
+      feature4Title: "Track Your Visa",
+      feature4Desc: "Know every step of your application process.",
+      feature5Title: "Flexible Pricing",
+      feature5Desc: "Special plans for travel agencies."
+    },
+
+    // Visa Section
+    visaSection: {
+      whatWeOffer: "What We Offer",
+      ourMission: "Our Mission",
+      missionDesc1: "We aim to make international travel accessible by simplifying the complex visa process. With cutting-edge technology, live support, and a user-friendly platform, we empower our clients to focus on their travel plans while we handle the paperwork.",
+      missionDesc2: "Our commitment to transparency and efficiency ensures that you're always informed about the progress of your application. By leveraging secure document management and automated data extraction, we minimize errors and save you valuable time.",
+      missionDesc3: "Traveling has never been this easy!",
+      feature1Title: "Simplified Visa Applications",
+      feature1Desc: "Automated form filling using your passport details to save time and reduce errors.",
+      feature2Title: "Live Support",
+      feature2Desc: "24/7 chat and video call support to guide you at every step.",
+      feature3Title: "Secure Document Management",
+      feature3Desc: "Upload, store, and manage your documents with complete security.",
+      feature4Title: "Visa Tracking",
+      feature4Desc: "Stay informed about your application status and progress in real-time.",
+      feature5Title: "Flexible Pricing Plans",
+      feature5Desc: "Tailored solutions for individual travelers and travel agencies."
     },
 
     // How It Works Section
@@ -59,7 +95,16 @@ export const translations = {
       step3Title: "Track Progress",
       step3Desc: "Monitor your application status in real-time through your personal dashboard.",
       step4Title: "Receive Your Visa",
-      step4Desc: "Get your approved visa delivered directly to your email or physical address."
+      step4Desc: "Get your approved visa delivered directly to your email or physical address.",
+      // New steps for HowItWorksSection component
+      stepAlt1Title: "Create an Account:",
+      stepAlt1Desc: "Register easily with your email.",
+      stepAlt2Title: "Upload Your Documents:",
+      stepAlt2Desc: "Submit required files securely.",
+      stepAlt3Title: "Track Your Progress:",
+      stepAlt3Desc: "Monitor every step of your visa application.",
+      stepAlt4Title: "Get Your Visa:",
+      stepAlt4Desc: "Receive updates and download your approved visa."
     },
 
     // Testimonials Section
@@ -67,7 +112,15 @@ export const translations = {
       title: "What Our Customers Say",
       testimonial1: "The visa application process was incredibly smooth and fast. I received my visa in just 3 days!",
       testimonial2: "Outstanding customer service and support throughout the entire process. Highly recommended!",
-      testimonial3: "Professional, reliable, and efficient. Made my travel planning so much easier."
+      testimonial3: "Professional, reliable, and efficient. Made my travel planning so much easier.",
+      // Individual testimonials for TestimonialsSection
+      clientTestimonial: "Teamollo delivered the visa processing service within the timeline as they requested. In the end, the client found a 50% increase in efficiency with their visa application process since its launch. They also had an impressive ability to use technologies that the company hasn't used, which have also proved to be easy to use and reliable.",
+      clientTestimonial2: "Teamollo delivered the visa service with excellent timeline as they requested. In the end, the client found a 50% increase in processing speed with their visa applications since its launch.",
+      clientTestimonial3: "Teamollo delivered the visa service within the timeline as they requested. In the end, the client found a 50% increase in application processing speed with their visa services since its launch. They also had an impressive ability to use technologies that the company hasn't used, which have also proved to be easy to use and reliable.",
+      clientTestimonial4: "Teamollo delivered the visa processing service within the timeline as they requested. In the end, the client found a 50% increase in efficiency with visa applications since its launch. They also had an impressive ability to use technologies that the company hasn't used, which have also proved to be easy to use and reliable. Teamollo delivered the visa service within the timeline as they requested. In the end, the client found a 50% increase in processing speed with their applications since its launch.",
+      clientTestimonial5: "Teamollo delivered the visa service within the timeline as they requested. In the end, the client found a 50% increase in processing efficiency with visa applications since its launch. They also had an impressive ability to use technologies that the company hasn't used, which have also proved to be easy to use and reliable.",
+      clientTestimonial6: "Teamollo delivered the visa processing service within the timeline as they requested. In the end, the client found a 50% increase in efficiency with their applications since its launch.",
+      clientTestimonial7: "Teamollo delivered the visa service within the timeline as they requested. In the end, the client found a 50% increase in processing speed with visa applications since its launch. They also had an impressive ability to use technologies that the company hasn't used, which have also proved to be easy to use and reliable."
     },
 
     // FAQ Section
@@ -95,6 +148,7 @@ export const translations = {
     about: {
       title: "Simplify Your Visa Application Today!",
       subtitle: "Your trusted partner for Mexican visa applications",
+      description: "Effortless, secure, and fast visa processing for Mexican passport holders. With live support, real-time tracking, and automated features, we make your journey stress-free from start to finish.",
       missionTitle: "Our Mission",
       missionText: "We are dedicated to simplifying the Mexican visa application process for travelers worldwide. Our mission is to provide fast, secure, and reliable visa processing services with exceptional customer support.",
       startApplication: "Start Your Application"
@@ -179,6 +233,12 @@ export const translations = {
       spanish: "Español"
     },
 
+    // Common Labels
+    labels: {
+      allFaculties: "Todas las Facultades",
+      testimonials: "Testimonios"
+    },
+
     // Hero Section
     hero: {
       title: "Procesamiento de Visa Rápido, Simple y Seguro con Soporte en Vivo.",
@@ -205,7 +265,37 @@ export const translations = {
       expertSupportTitle: "Soporte experto en cada paso del camino",
       expertSupportDesc: "Nuestro equipo experimentado proporciona orientación personalizada durante todo tu proceso de solicitud. Obtén respuestas a tus preguntas y asegúrate de que tu solicitud cumpla con todos los requisitos.",
       secureProcessTitle: "Procesamiento seguro y confiable",
-      secureProcessDesc: "Tu información personal y documentos están protegidos con seguridad de nivel bancario. Garantizamos que tu solicitud se procese de manera segura y eficiente."
+      secureProcessDesc: "Tu información personal y documentos están protegidos con seguridad de nivel bancario. Garantizamos que tu solicitud se procese de manera segura y eficiente.",
+      // New features translations
+      feature1Title: "Soporte en Vivo 24/7",
+      feature1Desc: "Chatea o llama con nuestros expertos en cualquier momento.",
+      feature2Title: "Proceso Simplificado",
+      feature2Desc: "Relleno automático de formularios desde tu pasaporte.",
+      feature3Title: "Documento Seguro",
+      feature3Desc: "Sube y almacena tus documentos de forma segura.",
+      feature4Title: "Rastrea tu Visa",
+      feature4Desc: "Conoce cada paso de tu proceso de solicitud.",
+      feature5Title: "Precios Flexibles",
+      feature5Desc: "Planes especiales para agencias de viajes."
+    },
+
+    // Visa Section
+    visaSection: {
+      whatWeOffer: "¿Qué Ofrecemos?",
+      ourMission: "Nuestra Misión",
+      missionDesc1: "Nos dedicamos a hacer que el viaje internacional sea accesible simplificando el proceso de visa complejo. Con tecnología de vanguardia, soporte en vivo y una plataforma intuitiva, nosotros potenciamos a nuestros clientes para que se enfoquen en sus planes de viaje mientras nosotros manejamos el papeleo.",
+      missionDesc2: "Nuestra compromiso con la transparencia y la eficiencia asegura que siempre estés informado sobre el progreso de tu solicitud. Al aprovechar el manejo seguro de documentos y la extracción de datos automatizada, minimizamos errores y ahorramos tiempo valioso.",
+      missionDesc3: "¡Viajar nunca ha sido tan fácil!",
+      feature1Title: "Solicitudes de Visa Simplificadas",
+      feature1Desc: "Relleno automático de formularios utilizando tus detalles de pasaporte para ahorrar tiempo y reducir errores.",
+      feature2Title: "Soporte en Vivo",
+      feature2Desc: "Soporte en chat y videollamada 24/7 para guiarte en cada paso.",
+      feature3Title: "Gestión de Documentos Seguros",
+      feature3Desc: "Sube, almacena y gestiona tus documentos con seguridad completa.",
+      feature4Title: "Rastrea tu Visa",
+      feature4Desc: "Manténte informado sobre el estado y el progreso de tu solicitud en tiempo real.",
+      feature5Title: "Planes de Precios Flexibles",
+      feature5Desc: "Soluciones adaptadas para viajeros individuales y agencias de viajes."
     },
 
     // How It Works Section
@@ -218,7 +308,16 @@ export const translations = {
       step3Title: "Rastrea el Progreso",
       step3Desc: "Monitorea el estado de tu solicitud en tiempo real a través de tu panel personal.",
       step4Title: "Recibe tu Visa",
-      step4Desc: "Recibe tu visa aprobada directamente en tu correo electrónico o dirección física."
+      step4Desc: "Recibe tu visa aprobada directamente en tu correo electrónico o dirección física.",
+      // New steps for HowItWorksSection component
+      stepAlt1Title: "Crea una Cuenta:",
+      stepAlt1Desc: "Regístrate fácilmente con tu correo electrónico.",
+      stepAlt2Title: "Sube tus Documentos:",
+      stepAlt2Desc: "Envía archivos requeridos de forma segura.",
+      stepAlt3Title: "Rastrea tu Progreso:",
+      stepAlt3Desc: "Monitorea cada paso de tu solicitud de visa.",
+      stepAlt4Title: "Obtén tu Visa:",
+      stepAlt4Desc: "Recibe actualizaciones y descarga tu visa aprobada."
     },
 
     // Testimonials Section
@@ -226,7 +325,15 @@ export const translations = {
       title: "Lo que Dicen Nuestros Clientes",
       testimonial1: "¡El proceso de solicitud de visa fue increíblemente fluido y rápido. Recibí mi visa en solo 3 días!",
       testimonial2: "¡Excelente servicio al cliente y soporte durante todo el proceso. Altamente recomendado!",
-      testimonial3: "Profesional, confiable y eficiente. Hizo que la planificación de mi viaje fuera mucho más fácil."
+      testimonial3: "Profesional, confiable y eficiente. Hizo que la planificación de mi viaje fuera mucho más fácil.",
+      // Individual testimonials for TestimonialsSection
+      clientTestimonial: "Teamollo entregó el servicio de procesamiento de visa dentro del plazo solicitado. Al final, el cliente encontró un aumento del 50% en la eficiencia con su proceso de solicitud de visa desde su lanzamiento. También tuvieron una capacidad impresionante para utilizar tecnologías que la empresa no había utilizado, que también resultaron ser fáciles de usar y confiables.",
+      clientTestimonial2: "Teamollo entregó el servicio de visa con un excelente plazo como se solicitó. Al final, el cliente encontró un aumento del 50% en la velocidad de procesamiento con sus solicitudes de visa desde su lanzamiento.",
+      clientTestimonial3: "Teamollo entregó el servicio de visa dentro del plazo solicitado. Al final, el cliente encontró un aumento del 50% en la velocidad de procesamiento de solicitudes de visa con sus servicios desde su lanzamiento. También tuvieron una capacidad impresionante para utilizar tecnologías que la empresa no había utilizado, que también resultaron ser fáciles de usar y confiables.",
+      clientTestimonial4: "Teamollo entregó el servicio de procesamiento de visa dentro del plazo solicitado. Al final, el cliente encontró un aumento del 50% en la eficiencia con las solicitudes de visa desde su lanzamiento. También tuvieron una capacidad impresionante para utilizar tecnologías que la empresa no había utilizado, que también resultaron ser fáciles de usar y confiables. Teamollo entregó el servicio de visa dentro del plazo solicitado. Al final, el cliente encontró un aumento del 50% en la velocidad de procesamiento con sus solicitudes desde su lanzamiento.",
+      clientTestimonial5: "Teamollo entregó el servicio de visa dentro del plazo solicitado. Al final, el cliente encontró un aumento del 50% en la eficiencia de procesamiento con las solicitudes de visa desde su lanzamiento. También tuvieron una capacidad impresionante para utilizar tecnologías que la empresa no había utilizado, que también resultaron ser fáciles de usar y confiables.",
+      clientTestimonial6: "Teamollo entregó el servicio de procesamiento de visa dentro del plazo solicitado. Al final, el cliente encontró un aumento del 50% en la eficiencia con sus solicitudes desde su lanzamiento.",
+      clientTestimonial7: "Teamollo entregó el servicio de visa dentro del plazo solicitado. Al final, el cliente encontró un aumento del 50% en la velocidad de procesamiento con las solicitudes de visa desde su lanzamiento. También tuvieron una capacidad impresionante para utilizar tecnologías que la empresa no había utilizado, que también resultaron ser fáciles de usar y confiables."
     },
 
     // FAQ Section
@@ -254,6 +361,7 @@ export const translations = {
     about: {
       title: "¡Simplifica tu Solicitud de Visa Hoy!",
       subtitle: "Tu socio de confianza para solicitudes de visa mexicana",
+      description: "Fácil, seguro y rápido procesamiento de visa para titulares de pasaporte mexicano. Con soporte en vivo, seguimiento en tiempo real y funciones automatizadas, hacemos que tu viaje sea sin estrés desde el principio hasta el final.",
       missionTitle: "Nuestra Misión",
       missionText: "Nos dedicamos a simplificar el proceso de solicitud de visa mexicana para viajeros de todo el mundo. Nuestra misión es proporcionar servicios de procesamiento de visa rápidos, seguros y confiables con soporte al cliente excepcional.",
       startApplication: "Iniciar tu Solicitud"

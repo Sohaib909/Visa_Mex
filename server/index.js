@@ -4,8 +4,9 @@ const dotenv = require('dotenv');
 const session = require('express-session');
 const passport = require('./config/passport');
 const connectDatabase = require('./config/database');
+const path = require('path');
 
-
+// Load environment variables
 dotenv.config();
 
 const app = express();
@@ -94,14 +95,36 @@ try {
 try {
   const authRoutes = require('./routes/authRoutes');
   app.use('/api/auth', authRoutes);
-  console.log(' Auth routes loaded successfully');
-  console.log(' Available auth endpoints:');
+  console.log('✅ Auth routes loaded successfully');
+  console.log('📋 Available auth endpoints:');
   console.log('   POST /api/auth/register');
   console.log('   POST /api/auth/login');
   console.log('   POST /api/auth/verify-email');
 } catch (error) {
-  console.error(' Error loading auth routes:', error.message);
-  console.error(' Full error:', error);
+  console.error('❌ Error loading auth routes:', error.message);
+  console.error('🔍 Full error:', error);
+}
+
+// Static file serving for uploads
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+console.log('📁 Static file serving enabled for uploads');
+
+// Content Management Routes
+try {
+  const contentRoutes = require('./routes/contentRoutes');
+  app.use('/api', contentRoutes);
+  console.log('✅ Content management routes loaded successfully');
+  console.log('📋 Available content endpoints:');
+  console.log('   GET  /api/content/:section/:language? - Get content by section');
+  console.log('   GET  /api/admin/content - Admin: Get all content');
+  console.log('   POST /api/admin/content - Admin: Create content');
+  console.log('   PUT  /api/admin/content/:id - Admin: Update content');
+  console.log('   DELETE /api/admin/content/:id - Admin: Delete content');
+  console.log('   POST /api/admin/upload/single - Admin: Upload single file');
+  console.log('   POST /api/admin/upload/multiple - Admin: Upload multiple files');
+} catch (error) {
+  console.error('❌ Error loading content routes:', error.message);
+  console.error('🔍 Full error:', error);
 }
 
 
